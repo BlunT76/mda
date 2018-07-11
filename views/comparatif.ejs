@@ -1,0 +1,145 @@
+<%-include ../partials/head.ejs%>
+    <!-- Header -->
+<%-include ../partials/nav.ejs%>
+        
+
+
+<div class="container-fluid">
+
+
+<div class="row m-3">
+<div class="col-lg-4 order-2 order-sm-2 order-md-2 order-lg-1">
+    <form class="" action="/compVote" method="post">
+        <h4 class="text-center">Voter</h4>
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text bg-success text-light" for="inputGroupSelect01">Choisir un utilisateur</label>
+        </div>
+            <select name="idVoted" class="custom-select" id="inputGroupSelect01" required>
+                <option value="" selected>dans cette liste...</option>
+                <% users.forEach(function(user){ %>
+                <option value="<%= user.idclient  %>" > <%= user.login  %> </option>
+                <% })%>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Maquetter une application</label>
+            <input type="number" name="comp1" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Réaliser une interface utilisateur web statique et adaptable</label>
+            <input type="number" name="comp2" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Développer une interface utilisateur web dynamique</label>
+            <input type="number" name="comp3" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Réaliser une interface utilisateur avec une solution de gestion de contenu ou e-commerce</label>
+            <input type="number" name="comp4" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Créer une base de données</label>
+            <input type="number" name="comp5" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Développer les composants d'accès aux données</label>
+            <input type="number" name="comp6" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Développer la partie back-end d'une application web ou web mobile</label>
+            <input type="number" name="comp7" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Elaborer et mettre en oeuvre des composants dans une application de gestion de contenu ou e-commerce</label>
+            <input type="number" name="comp8" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Utiliser l’anglais dans son activité professionnelle en développement web et web mobile</label>
+            <input type="number" name="comp9" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Actualiser et partager ses compétences en développement web et web mobile</label>
+            <input type="number" name="comp10" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" name="submitCompValue" class="btn btn-outline-success" value="Submit">Envoyer</button>
+        </div>
+    </form>
+    </div>
+    
+   <div class="  ml-auto col-lg-8 order-1 order-sm-1 order-md-1 order-lg-2">
+<form class="" action="/voir" method="post">
+        <h4 class="text-center">Voir les compétences</h4>
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text bg-success text-light" for="inputGroupSelect01">Choisir un utilisateur</label>
+        </div>
+            <select name="idVoted" class="custom-select" id="inputGroupSelect01" required>
+                <option value="" selected>dans cette liste pour voir ses compétences...</option>
+                <% users.forEach(function(user){ %>
+                <option value="<%= user.idclient  %>|<%= user.login  %>" userName="<%= user.login  %>"> <%= user.login  %> </option>
+                <% })%>
+            </select>
+            <button type="submit" name="userChoice" class="btn btn-outline-success ml-2" value="Submit">Envoyer</button>
+        </div>
+        <div class="form-group">
+            
+        </div>
+    
+        <div id="container" style="min-width: 310px; max-width: 800px; height: 600px; margin: 0 auto; "> <!--class="col-sm-8 border rounded ml-2"-->>
+    
+    </div>
+</form>
+</div>
+    
+    </div>
+
+<script>document.addEventListener("DOMContentLoaded", function() {
+  // code
+
+    Highcharts.chart('container', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Compétences de <%=user%> '
+    },
+    xAxis: {
+        categories: ['Maquetter une application', 'Réaliser une interface utilisateur web statique et adaptable', 
+        'Développer une interface utilisateur web dynamique', 'Réaliser une interface utilisateur avec une solution de gestion de contenu ou e-commerce', 
+        'Créer une base de données', "Développer les composants d'accès aux données", "Développer la partie back-end d'une application web ou web mobile", 
+        'Elaborer et mettre en oeuvre des composants dans une application de gestion de contenu ou e-commerce', 
+        'Utiliser l’anglais dans son activité professionnelle en développement web et web mobile', 
+        'Actualiser et partager ses compétences en développement web et web mobile']
+    },
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Compétences acquises en pourcentages'
+        }
+    },
+    legend: {
+        reversed: true
+    },
+    plotOptions: {
+        bar: {
+            series: 'normal'
+        }
+    },
+    series: [{
+        name: <%-JSON.stringify( user)%>,
+        data: <%-JSON.stringify(dataUser) %>
+    },{
+        name: <%-JSON.stringify( "Vote pour "+ user)%>,
+        data: <%-JSON.stringify(dataVote) %>
+    }
+    ]
+});
+        });
+</script>
+</div>
+
+
+<%-include ../partials/footer.ejs%>

@@ -1,0 +1,28 @@
+<%-include ../partials/head.ejs%>
+    <%-include ../partials/nav.ejs%>
+        <div class="container-fluid">
+            <h6 class="badge badge-pill badge-success">
+                <%= user %>
+            </h6>
+            <section>
+                <h4 class="text-center">Bienvenue
+                    <%= user %>
+                </h4>
+                <p class="text-center">
+                    <br>La page "Modifiez vos compétences" permet de renseigner vos compétences, cette étape est obligatoire.
+                    <br>
+                    <br> La page "Statistiques" permet de consulter vos notes, ainsi que la moyenne des notes votées par les
+                    autres utilisateurs.
+                    <br>
+                    <br> La page "Comparatifs" permet de consulter les notes des autres utilisateurs, ainsi que voter des notes
+                    pour un utilisateur.
+                    <br>
+                    <br>
+                </p>
+                <div class="resp-container">
+                <iframe src="https://calendar.google.com/calendar/embed?title=Calendrier%20Maison%20de%20l%27Avenir%20Comminges%20Pyr%C3%A9n%C3%A9es&amp;height=600&amp;wkst=2&amp;hl=fr&amp;bgcolor=%239999ff&amp;src=0mom97cq9vlvktu583504p2560%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Europe%2FParis"
+                class="resp-iframe" style="border:solid 1px #777" frameborder="0" scrolling="no" ></iframe>
+                </div>
+            </section> 
+        </div>
+        <%-include ../partials/footer.ejs%>

@@ -1,0 +1,56 @@
+<%-include ../partials/head.ejs%>
+    <%-include ../partials/navbar.ejs%>
+
+<div class="container bg-light mt-5 mb-5 p-2 border col col-lg-4 rounded">
+    <h4 class="text-center mt-2">S'enregistrer</h4>
+    <p class="text-center text-danger"><%= errorMsg %></p>
+    <form action="/signin" method="post" class="m2">
+         <div class="form-group">
+            <label>Nom d'utilisateur:</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+         <div class="form-group">
+            <label>Mot de passe:</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Adresse Email:</label>
+            <input type="text" name="usermail" class="form-control" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Code postal:</label>
+                <input type="text" name="zip" class="form-control" required>
+            </div>
+            <div class="form-group col-md-8">
+                <label>Commune:</label>
+                <input type="text" name="city" class="form-control" required>
+            </div>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="mapask" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              Autoriser la localisation sur la carte ?
+            </label>
+        </div><br>  
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Choisir son atelier préféré:</label>
+            <select name="atelier" class="form-control" id="exampleFormControlSelect1" required>
+              <option>Atelier Cocagne Alimen'terre</option>
+              <option>Brico Ordi</option>
+              <option>Brico Vélo</option>
+              <option>Brico Vêtements</option>
+              <option>Atelier Faîtes le vous-mêmes</option>
+              <option>J'anime mon atelier</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Interets Divers:</label>
+            <input type="text" name="interest" class="form-control">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-success" value="Submit">Ok</button>
+        </div>
+    </form>
+    <a class="btn btn-outline-success" href="/">Retour</a>
+</div>

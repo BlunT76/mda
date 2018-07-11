@@ -1,0 +1,64 @@
+<%-include ../partials/head.ejs%>
+    <!-- Header -->
+    <%-include ../partials/nav.ejs%>
+        
+
+
+        <div class="container-fluid">
+<h6 class="badge badge-pill badge-success">
+            <%= user %>
+        </h6>
+<h4 class="text-center"><%= title %></h4>
+            <!-- Section 1 -->
+            <section>
+                <div id="container" style="min-width: 310px; max-width: 800px; height: 600px; margin: 0 auto"></div>
+            </section>
+
+<script>document.addEventListener("DOMContentLoaded", function() {
+  // code
+
+    Highcharts.chart('container', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Compétences'
+    },
+    xAxis: {
+        categories: ['Maquetter une application', 'Réaliser une interface utilisateur web statique et adaptable', 
+        'Développer une interface utilisateur web dynamique', 'Réaliser une interface utilisateur avec une solution de gestion de contenu ou e-commerce', 
+        'Créer une base de données', "Développer les composants d'accès aux données", "Développer la partie back-end d'une application web ou web mobile", 
+        'Elaborer et mettre en oeuvre des composants dans une application de gestion de contenu ou e-commerce', 
+        'Utiliser l’anglais dans son activité professionnelle en développement web et web mobile', 
+        'Actualiser et partager ses compétences en développement web et web mobile']
+    },
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Compétences acquises en pourcentages'
+        }
+    },
+    legend: {
+        reversed: true
+    },
+    plotOptions: {
+        bar: {
+            series: 'normal'
+        }
+    },
+    series: [{
+        name: <%-JSON.stringify( user)%>,
+        data: <%-JSON.stringify(dataUser) %>
+    },{
+        name: <%-JSON.stringify( "Vote pour "+ user)%>,
+        data: <%-JSON.stringify(dataVote) %>
+    }
+    ]
+});
+        });
+</script>
+</div>
+
+
+<%-include ../partials/footer.ejs%>

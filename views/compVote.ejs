@@ -1,0 +1,64 @@
+<%-include ../partials/head.ejs%>
+<%-include ../partials/nav.ejs%>
+
+<div class="container mt-3 mb-3">
+    <!-- Select personne -->
+    
+    
+    <form class="border bg-light p-3" action="/compVote" method="post">
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text bg-success text-light" for="inputGroupSelect01">Choisir un utilisateur</label>
+        </div>
+            <select name="idVoted" class="custom-select" id="inputGroupSelect01" required>
+                <option value="" selected>dans cette liste...</option>
+                <% users.forEach(function(user){ %>
+                <option value="<%= user.idclient  %>" > <%= user.login  %> </option>
+                <% })%>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Maquetter une application</label>
+            <input type="number" name="comp1" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Réaliser une interface utilisateur web statique et adaptable</label>
+            <input type="number" name="comp2" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Développer une interface utilisateur web dynamique</label>
+            <input type="number" name="comp3" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Réaliser une interface utilisateur avec une solution de gestion de contenu ou e-commerce</label>
+            <input type="number" name="comp4" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Créer une base de données</label>
+            <input type="number" name="comp5" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Développer les composants d'accès aux données</label>
+            <input type="number" name="comp6" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Développer la partie back-end d'une application web ou web mobile</label>
+            <input type="number" name="comp7" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Elaborer et mettre en oeuvre des composants dans une application de gestion de contenu ou e-commerce</label>
+            <input type="number" name="comp8" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Utiliser l’anglais dans son activité professionnelle en développement web et web mobile</label>
+            <input type="number" name="comp9" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Actualiser et partager ses compétences en développement web et web mobile</label>
+            <input type="number" name="comp10" class="form-control" placeholder="Voter entre 0 et 100" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" name="submitCompValue" class="btn btn-outline-success" value="Submit">Envoyer</button>
+        </div>
+    </form>
+<%-include ../partials/footer.ejs%>
