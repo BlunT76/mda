@@ -1,92 +1,125 @@
 <%-include ../partials/head.ejs%>
     <%-include ../partials/nav.ejs%>
 
-<!--Carousel Wrapper-->
-<div class="container">
-    <div class="row">
+        <!--Container Row-->
+        <div class="container">
+            <div class="row">
 
-        <div class="col-md-6 sm-12">
-        <div id="multi-item-example" class="carousel slide carousel-multi-item">
+                <!--Carousel Wrapper-->
+                <div class="col-md-6 sm-12">
+                    <div id="multi-item-example" class="carousel slide carousel-multi-item">
+
+                        <!--Slides-->
+                        <div class="carousel-inner" role="listbox">
+
+                            <!--Start First slide-->
+                            <div class="carousel-item active">
+                                <div class="col-md-4">
+                                    <div class="card mb-2" style="width:80%">
+
+                                        <div class="controls-top">
+                                            <!--Chevron Left-->
+                                            <a class="btn-floating" href="#multi-item-example" data-slide="prev">
+                                                <i class="fa fa-chevron-left"></i>
+                                            </a>
+
+                                            <ol class="carousel-indicators">
+                                                <li data-target="#multi-item-example" data-slide-to="1"></li><!--class="active" qui fait l'animation?-->
+                                            </ol>
+
+                                            <!--Chevron Right-->
+                                            <a class="btn-floating" href="#multi-item-example" data-slide="next">
+                                                <i class="fa fa-chevron-right"></i>
+                                            </a>
+
+                                            <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar1.png" style="width:70%" alt="Card avatar 1">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-outline-secondary col align-self-center">Ok</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End First slide-->
 
 
+                            <!--Start Second slide-->
+                            <div class="carousel-item">
+                                <div class="col-md-4">
+                                    <div class="card mb-2" style="width:80%">
 
-    
+                                        <div class="controls-top">
+                                            <!--Chevron Left-->
+                                            <a class="btn-floating" href="#multi-item-example" data-slide="prev">
+                                                <i class="fa fa-chevron-left"></i>
+                                            </a>
 
-    <!--Slides-->
-    <div class="carousel-inner" role="listbox">
+                                            <ol class="carousel-indicators">
+                                                <li data-target="#multi-item-example" data-slide-to="1" class="active"></li>
+                                            </ol>
 
-        <!--First slide-->
-        <div class="carousel-item active">
+                                            <!--Chevron Right-->
+                                            <a class="btn-floating" href="#multi-item-example" data-slide="next">
+                                                <i class="fa fa-chevron-right"></i>
+                                            </a>
 
-            <div class="col-md-4">
-                <div class="card mb-2" style="width:70%">
+                                            <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar2.png" style="width:70%" alt="Card avatar 2">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-outline-secondary col align-self-center">Ok</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Second slide-->
 
-
-
-
-
-                     <div class="controls-top">
-                         <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
-
-                             <ol class="carousel-indicators">
-                                <li data-target="#multi-item-example" data-slide-to="1" class="active"></li>
-                             </ol>   
-
-                        <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
-
-                    <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar1.png" style="width:70%" alt="Card avatar 1">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-outline-secondary col align-self-center"">Ok</button>
-
-      
-    
-
+                        </div>
+                        <!--End Slides-->
 
                     </div>
                 </div>
-            </div>
-</div>
-</div>
-        </div>
-        <!--/.First slide-->
+                <!--End Carousel Wrapper-->
 
-        <!--Second slide-->
-        <div class="carousel-item">
 
-            <div class="col-md-4">
-                <div class="card mb-2" style="width:70%">
-                    <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar2.png" style="width:70%" alt="Card avatar 2">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-outline-secondary col align-self-center"">Ok</button>
+
+                <!-- Infos profil -->
+                <div class="col-md-6 sm-12 ">
+
+                    <!--Start accordion (huuum bonne idée? crois pas)-->
+                    <div id="accordion" role="tablist">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="">
+                                        Présentation / Centre d'intérêts
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    Bonjour ! Moi c'est Marie-Pomponette et j'adore faire la cuisine et la soupe au Pistou!!!
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!--End accordion-->
+
                 </div>
+                <!--End Infos profil-->
+
+
+
+
+
             </div>
-
         </div>
-        <!--/.Second slide-->
-
-        
-                
-
-    </div>
-    <!--/.Slides-->
-
-</div>
-</div>
-
-<!-- Infos profil -->
-        <div class="col-md-6 sm-12"><p>Coucou!!!</p></div>
-
-
-
-
-</div>
-</div>
-<!--/.Carousel Wrapper-->
+        <!--End Container Row-->
 
 
 
 
 
 
-    <%-include ../partials/footer.ejs%>
+
+        <%-include ../partials/footer.ejs%>
