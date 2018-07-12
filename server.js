@@ -6,6 +6,8 @@ const bcrypt = require("bcrypt");
 const moment = require('moment');
 let app = express();
 require('./route')(app);
+//require('./moment_fr')(app);
+//app.moment.lang('fr');
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(require('serve-static')(__dirname + '/../../public'));
@@ -21,12 +23,60 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', loggedIn, function (req, res) {
-    //console.log(req.user.login)
-    res.render('index', {
-        user: req.user.login
-    })
-});
+
+///moment en fr////////
+moment.locale('fr', {
+    months: 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
+    monthsShort: 'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
+    weekdays: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
+    weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
+    weekdaysMin: 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
+    longDateFormat: {
+      LT: 'HH:mm',
+      L: 'DD/MM/YYYY',
+      LL: 'D MMMM YYYY',
+      LLL: 'D MMMM YYYY LT',
+      LLLL: 'dddd D MMMM YYYY LT'
+    },
+    calendar: {
+      sameDay: '[Aujourdhui à] LT',
+      nextDay: '[Demain à] LT',
+      nextWeek: 'dddd [à] LT',
+      lastDay: '[Hier à] LT',
+      lastWeek: 'dddd [dernier à] LT',
+      sameElse: 'L'
+    },
+    relativeTime: {
+      future: 'dans %s',
+      past: 'il y a %s',
+      s: 'quelques secondes',
+      m: 'une minute',
+      mm: '%d minutes',
+      h: 'une heure',
+      hh: '%d heures',
+      d: 'un jour',
+      dd: '%d jours',
+      M: 'un mois',
+      MM: '%d mois',
+      y: 'une année',
+      yy: '%d années'
+    },
+    ordinal: function (number) {
+      return number + (number === 1 ? 'er' : 'ème');
+    },
+    week: {
+      dow: 1, // Monday is the first day of the week.
+      doy: 4 // The week that contains Jan 4th is the first week of the year.
+    }
+  });
+  moment.locale('fr');
+
+// app.get('/', loggedIn, function (req, res) {
+//     //console.log(req.user.login)
+//     res.render('index', {
+//         user: req.user.login
+//     })
+// });
 
 //Lance le server
 //let server = app.listen(process.env.PORT || 3000);
@@ -91,8 +141,74 @@ app.post('/login',
         failureRedirect: '/login'
     }),
     function (req, res) {
-        res.render('index', {
-            user: req.user.login
+        var {
+            google
+        } = require('googleapis');
+        var privatekey = require("./privatekey.json");
+        
+        // configure a JWT auth client
+        //var authClient = new googleAuth();
+        var jwtClient = new google.auth.JWT(
+            privatekey.client_email,
+            null,
+            privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
+        //authenticate request
+        jwtClient.authorize(function (err, tokens) {
+            //console.log(tokens)
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                console.log("Successfully connected!");
+                //Google Calendar API
+                let calendar = google.calendar('v3');
+                calendar.events.list({
+                //calendar.calendarList.list({
+                    auth: jwtClient,
+                    calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
+                    singleEvents: true,
+                    orderBy:'startTime'
+                }, function (err, response) {
+                    console.log(response.data.items);
+                    if (err) {
+                        console.log('The API returned an error: ' + err);
+                        return;
+                    }
+                    var events = response.data.items;
+                    let ateliers = [];
+                    if (events.length == 0) {
+                        console.log('No events found.');
+                    } else {
+                        console.log('Event from Google Calendar:');
+                        let oneMonthAgo = moment().subtract(1, 'months');
+                        let oneMonthAfter = moment().add(1,'months');
+                        //let parser = new DOMParser();
+                        for (let event of response.data.items) {
+                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
+                            
+                            let test = moment(event.start.dateTime)
+                            //console.log("NOW: ",now," TEST: ",test)
+                            if(moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)){
+                                ateliers.push({
+                                    sommaire: event.summary,
+                                    location: event.location,
+                                    dateStart: moment(event.start.dateTime).format('dddd DD MMMM YYYY HH:mm'),
+                                    dateEnd: moment(event.end.dateTime).format('-HH:mm'),
+                                    description: event.description}
+                                )
+                                //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
+                                
+                            }
+                            
+                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
+                        }
+                        //console.log(ateliers);
+                        res.render('index',{
+                            atelier: ateliers
+                        })
+                    }
+                });
+            }
         });
 
     });
@@ -149,61 +265,148 @@ app.get('/logout', function (req, res) {
 /////////////PASSPORT END////////////////////
 
 /////////////CALENDAR//////////////////////
-var {
-    google
-} = require('googleapis');
-var privatekey = require("./privatekey.json");
+// var {
+//     google
+// } = require('googleapis');
+// var privatekey = require("./privatekey.json");
 
-// configure a JWT auth client
-//var authClient = new googleAuth();
-var jwtClient = new google.auth.JWT(
-    privatekey.client_email,
-    null,
-    privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
-//authenticate request
-jwtClient.authorize(function (err, tokens) {
-    //console.log(tokens)
-    if (err) {
-        console.log(err);
-        return;
-    } else {
-        console.log("Successfully connected!");
-        //Google Calendar API
-        let calendar = google.calendar('v3');
-        calendar.events.list({
-        //calendar.calendarList.list({
-            auth: jwtClient,
-            calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
-            singleEvents: true
-        }, function (err, response) {
-            //console.log(response.data.items);
-            if (err) {
-                console.log('The API returned an error: ' + err);
-                return;
-            }
-            var events = response.data.items;
-            if (events.length == 0) {
-                console.log('No events found.');
-            } else {
-                console.log('Event from Google Calendar:');
-                for (let event of response.data.items) {
-                    //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-                    let now = moment().subtract(1, 'months')
-                    let test = moment(event.start.dateTime)
-                    //console.log("NOW: ",now," TEST: ",test)
-                    if(moment(test).isAfter(now)){
-                        //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-                        console.log('Event name: %s, Start date: %s',  event.summary, event.start.dateTime)
-                        //console.log("FLAAAAGGGGGGG")
-                    }
+// // configure a JWT auth client
+// //var authClient = new googleAuth();
+// var jwtClient = new google.auth.JWT(
+//     privatekey.client_email,
+//     null,
+//     privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
+// //authenticate request
+// jwtClient.authorize(function (err, tokens) {
+//     //console.log(tokens)
+//     if (err) {
+//         console.log(err);
+//         return;
+//     } else {
+//         console.log("Successfully connected!");
+//         //Google Calendar API
+//         let calendar = google.calendar('v3');
+//         calendar.events.list({
+//         //calendar.calendarList.list({
+//             auth: jwtClient,
+//             calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
+//             singleEvents: true,
+//             orderBy:'startTime'
+//         }, function (err, response) {
+//             //console.log(response.data.items);
+//             if (err) {
+//                 console.log('The API returned an error: ' + err);
+//                 return;
+//             }
+//             var events = response.data.items;
+//             if (events.length == 0) {
+//                 console.log('No events found.');
+//             } else {
+//                 console.log('Event from Google Calendar:');
+//                 let oneMonthAgo = moment().subtract(1, 'months');
+//                 let oneMonthAfter = moment().add(1,'months');
+//                 let ateliers = [];
+//                 for (let event of response.data.items) {
+//                     //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
                     
-                    //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
-                }
-            }
-        });
-    }
-});
+//                     let test = moment(event.start.dateTime)
+//                     //console.log("NOW: ",now," TEST: ",test)
+//                     if(moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)){
+//                         ateliers.push({
+//                             sommaire: event.summary,
+//                             location: event.location,
+//                             dateStart: event.start.dateTime,
+//                             dateEnd: event.end.dateTime}
+//                         )
+//                         //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
+                        
+//                     }
+                    
+//                     //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
+//                 }
+//                 // console.log(ateliers);
+//                 // res.render('index',{
+//                 //     atelier: ateliers
+//                 // })
+//             }
+//         });
+//     }
+// });
 
+app.get('/', loggedIn, function (req, res) {
+    var {
+        google
+    } = require('googleapis');
+    var privatekey = require("./privatekey.json");
+    
+    // configure a JWT auth client
+    //var authClient = new googleAuth();
+    var jwtClient = new google.auth.JWT(
+        privatekey.client_email,
+        null,
+        privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
+    //authenticate request
+    jwtClient.authorize(function (err, tokens) {
+        //console.log(tokens)
+        if (err) {
+            console.log(err);
+            return;
+        } else {
+            console.log("Successfully connected!");
+            //Google Calendar API
+            let calendar = google.calendar('v3');
+            calendar.events.list({
+            //calendar.calendarList.list({
+                auth: jwtClient,
+                calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
+                singleEvents: true,
+                orderBy:'startTime'
+            }, function (err, response) {
+                //console.log(response.data.items);
+                if (err) {
+                    console.log('The API returned an error: ' + err);
+                    return;
+                }
+                var events = response.data.items;
+                let ateliers = [];
+                if (events.length == 0) {
+                    console.log('No events found.');
+                } else {
+                    console.log('Event from Google Calendar:');
+                    let oneMonthAgo = moment().subtract(1, 'months');
+                    let oneMonthAfter = moment().add(1,'months');
+                    
+                    for (let event of response.data.items) {
+                        //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
+                        
+                        let test = moment(event.start.dateTime)
+                        //console.log("NOW: ",now," TEST: ",test)
+                        if(moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)){
+                            ateliers.push({
+                                sommaire: event.summary,
+                                location: event.location,
+                                dateStart: event.start.dateTime,
+                                dateEnd: event.end.dateTime}
+                            )
+                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
+                            
+                        }
+                        
+                        //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
+                    }
+                    console.log(ateliers);
+                    res.render('index',{
+                        atelier: ateliers[0].sommaire
+                    })
+                }
+            });
+        }
+    });
+    //console.log(req.user.login)
+    // res.render('index', {
+    //     user: req.user.login
+    // })
+});
 //////// GESTION DES COMPETENCES//////////////////////////
 //page Modifiez vos Competences
 app.get('/comp', function (req, res) {
@@ -524,3 +727,5 @@ con.on('error', function (err) {
 });
 
 ///////////// SQL END ////////////////////
+
+  console.log(moment(1316116057189).fromNow());

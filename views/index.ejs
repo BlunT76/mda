@@ -1,28 +1,51 @@
 <%-include ../partials/head.ejs%>
     <%-include ../partials/nav.ejs%>
-        <div class="container-fluid">
-            <h6 class="badge badge-pill badge-success">
-                <%= user %>
-            </h6>
-            <section>
-                <h4 class="text-center">Bienvenue
-                    <%= user %>
-                </h4>
-                <p class="text-center">
-                    <br>La page "Modifiez vos compétences" permet de renseigner vos compétences, cette étape est obligatoire.
-                    <br>
-                    <br> La page "Statistiques" permet de consulter vos notes, ainsi que la moyenne des notes votées par les
-                    autres utilisateurs.
-                    <br>
-                    <br> La page "Comparatifs" permet de consulter les notes des autres utilisateurs, ainsi que voter des notes
-                    pour un utilisateur.
-                    <br>
+        <div class="container">
+            <h4 class="text-center text-secondary">Bienvenue</h4>
+                <p class="text-center text-secondary">
+                    <br>Présentation de l'app
                     <br>
                 </p>
-                <div class="resp-container">
-                <iframe src="https://calendar.google.com/calendar/embed?title=Calendrier%20Maison%20de%20l%27Avenir%20Comminges%20Pyr%C3%A9n%C3%A9es&amp;height=600&amp;wkst=2&amp;hl=fr&amp;bgcolor=%239999ff&amp;src=0mom97cq9vlvktu583504p2560%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Europe%2FParis"
-                class="resp-iframe" style="border:solid 1px #777" frameborder="0" scrolling="no" ></iframe>
-                </div>
-            </section> 
+                <div class="">
+                    <% atelier.forEach(function(atelier, index){ %>
+                        <div class="accordion m-3 shadow-sm" id="accordion<%= index %>">
+                            <div class="card border border-green">
+                                <div class="card-header bg-transparent" id="headingOne">
+                                    <h5 class="mb-0 text-orange"><%= atelier.sommaire %>
+                                        <button class="btn btn-link float-right" type="button" data-toggle="collapse" data-target="#collapseOne<%= index %>" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="fas fa-angle-down i-big-green"></i>
+                                        </button>
+                                    </h5> 
+                                    <span class="text-green"><%= atelier.dateStart %></span><span class="text-green"><%= atelier.dateEnd %></span>
+                                    <p class="text-green"><%= atelier.location %></p>
+                                </div>
+                                <div>
+                                   
+                                </div>
+                                <div id="collapseOne<%= index %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion<%= index %>">
+                                    <div class="card-body">
+                                        <p class="text-secondary"><%- atelier.description %></p>
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1" class="text-secondary">Laisser un avis</label>
+                                                <textarea class="form-control" id="Textarea<%= index %>" rows="3"></textarea>
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs">
+                                            <button type="submit" class="btn btn-outline-success" value="Submit">Envoyer </button>
+                                        </div>
+                                        <!-- <input class="btn btn-outline-success bg-green float-right mr-2" type="submit" value="Submit"> -->
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs">
+                                        <button class="btn btn-outline-success float-right" type="submit">
+                                            <i class="fas fa-hands-helping"></i> Merci</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>    
+                </div> 
         </div>
         <%-include ../partials/footer.ejs%>
