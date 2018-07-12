@@ -1,7 +1,7 @@
 <%-include ../partials/head.ejs%>
     <%-include ../partials/navbar.ejs%>
 
-<div class="container bg-light mt-5 mb-5 p-2 border col col-lg-4 rounded">
+<div class="container bg-transparent mt-5 mb-5 p-2 border border-green col col-lg-4 rounded">
     <h4 class="text-center mt-2">S'enregistrer</h4>
     <p class="text-center text-danger"><%= errorMsg %></p>
     <form action="/signin" method="post" class="m2">
@@ -15,7 +15,11 @@
         </div>
         <div class="form-group">
             <label>Adresse Email:</label>
-            <input type="text" name="usermail" class="form-control" required>
+            <input type="email" name="usermail" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Téléphone:</label>
+            <input type="tel" name="usertel" class="form-control" required>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
@@ -36,12 +40,12 @@
         <div class="form-group">
             <label for="exampleFormControlSelect1">Choisir son atelier préféré:</label>
             <select name="atelier" class="form-control" id="exampleFormControlSelect1" required>
-              <option>Atelier Cocagne Alimen'terre</option>
-              <option>Brico Ordi</option>
-              <option>Brico Vélo</option>
-              <option>Brico Vêtements</option>
-              <option>Atelier Faîtes le vous-mêmes</option>
-              <option>J'anime mon atelier</option>
+              <option value="1">Atelier Cocagne Alimen'terre</option>
+              <option value="2">Brico Ordi</option>
+              <option value="3">Brico Vélo</option>
+              <option value="4">Brico Vêtements</option>
+              <option value="5">Atelier Faîtes le vous-mêmes</option>
+              <option value="6">J'anime mon atelier</option>
             </select>
         </div>
         <div class="form-group">
