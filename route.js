@@ -1,13 +1,12 @@
 module.exports = function(app){
 
-    app.get('/test', function(req, res){
+    app.get('/profil', function(req, res){
         console.log(req);
         
-        res.render('test', {
+        res.render('profil') 
             
             //title: 'Express Login'
         });
-    });
+    };
 
     //other routes..
-}

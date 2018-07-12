@@ -163,13 +163,12 @@ app.post('/login',
                 //Google Calendar API
                 let calendar = google.calendar('v3');
                 calendar.events.list({
-                //calendar.calendarList.list({
                     auth: jwtClient,
                     calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
                     singleEvents: true,
                     orderBy:'startTime'
                 }, function (err, response) {
-                    console.log(response.data.items);
+                    //console.log(response.data.items);
                     if (err) {
                         console.log('The API returned an error: ' + err);
                         return;
@@ -183,11 +182,8 @@ app.post('/login',
                         let oneMonthAgo = moment().subtract(1, 'months');
                         let oneMonthAfter = moment().add(1,'months');
                         //let parser = new DOMParser();
-                        for (let event of response.data.items) {
-                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-                            
-                            let test = moment(event.start.dateTime)
-                            //console.log("NOW: ",now," TEST: ",test)
+                        for (let event of response.data.items) {    
+                            let test = moment(event.start.dateTime);
                             if(moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)){
                                 ateliers.push({
                                     sommaire: event.summary,
@@ -196,13 +192,8 @@ app.post('/login',
                                     dateEnd: moment(event.end.dateTime).format('-HH:mm'),
                                     description: event.description}
                                 )
-                                //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-                                
                             }
-                            
-                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
                         }
-                        //console.log(ateliers);
                         res.render('index',{
                             atelier: ateliers
                         })
@@ -246,7 +237,7 @@ app.post('/signin', function (req, res) {
             console.log("we can create user");
             bcrypt.hash(req.body.password, 10, function (err, hash) {
                 // Store hash in your password DB.
-                var sql = `INSERT INTO User(mail, password, pseudo, codePostal, commune, accordCarte, InteretsDivers) VALUES ('${req.body.usermail}', '${hash}', '${req.body.username}', '${req.body.zip}', '${req.body.city}', '${req.body.atelier}', '${req.body.interest}')`;
+                var sql = `INSERT INTO User(mail, password, pseudo, codePostal, commune, accordCarte, InteretsDivers, avatar, tel, Ateliers_idAtelier) VALUES ('${req.body.usermail}', '${hash}', '${req.body.username}', '${req.body.zip}', '${req.body.city}', '${req.body.mapask}', '${req.body.interest}', '1', '${req.body.usertel}', '${req.body.atelier}')`;
                 con.query(sql, function (err, result) {
                     if (err) throw err;
                     console.log('user added successfully')
@@ -394,7 +385,7 @@ app.get('/', loggedIn, function (req, res) {
                         
                         //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
                     }
-                    console.log(ateliers);
+                    //console.log(ateliers);
                     res.render('index',{
                         atelier: ateliers[0].sommaire
                     })
@@ -728,4 +719,3 @@ con.on('error', function (err) {
 
 ///////////// SQL END ////////////////////
 
-  console.log(moment(1316116057189).fromNow());
