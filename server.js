@@ -1,5 +1,6 @@
 const express = require('express');
-const mysql = require('mysql');
+//const mysql = require('mysql');
+const con = require('./connect');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcrypt");
@@ -85,7 +86,7 @@ app.get('/', loggedIn, function (req, res) {
         null,
         privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
     //authenticate request
-    jwtClient.authorize( function (err, tokens) {
+    jwtClient.authorize(function (err, tokens) {
         //console.log(tokens)
         var ateliers = [];
         if (err) {
@@ -107,7 +108,7 @@ app.get('/', loggedIn, function (req, res) {
                     return;
                 }
                 var events = response.data.items;
-                
+
                 if (events.length == 0) {
                     console.log('No events found.');
                 } else {
@@ -123,15 +124,15 @@ app.get('/', loggedIn, function (req, res) {
                             con.query(agd, function (err, result) {
                                 if (err) throw err;
                                 console.log('agenda upgraded successfully');
-                                
+
                                 //console.log(sqlavis);
-                                
+
                             });
                             let sqlavis = `SELECT * FROM Avis WHERE Agenda_idAgenda = ` + con.escape(event.id);
                             con.query(sqlavis, function (err, resultavis) {
                                 if (err) throw err;
                                 console.log('avis recupéré');
-                                
+
                                 //console.log(ateliers);
                                 ateliers.push({
                                     sommaire: event.summary,
@@ -142,18 +143,18 @@ app.get('/', loggedIn, function (req, res) {
                                     avis: resultavis
                                 })
                             });
-                            
+
 
                         }
                     }
                     console.log("ATELIERS: ", ateliers);
-                    
+
                 }
-                
+
             });
-            
+
         }
-        
+
     });
 });
 
@@ -820,22 +821,88 @@ function loggedIn(req, res, next) {
     if (req.user) {
         next();
     } else {
-        res.redirect('/login');
+        //res.redirect('/indexNotLogged');
+        var {
+            google
+        } = require('googleapis');
+        var privatekey = require("./privatekey.json");
+
+        // configure a JWT auth client
+        //var authClient = new googleAuth();
+        var jwtClient = new google.auth.JWT(
+            privatekey.client_email,
+            null,
+            privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
+        //authenticate request
+        jwtClient.authorize(function (err, tokens) {
+            //console.log(tokens)
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                console.log("Successfully connected!");
+                //Google Calendar API
+                let calendar = google.calendar('v3');
+                calendar.events.list({
+                    //calendar.calendarList.list({
+                    auth: jwtClient,
+                    calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
+                    singleEvents: true,
+                    orderBy: 'startTime'
+                }, function (err, response) {
+                    //console.log(response.data.items);
+                    if (err) {
+                        console.log('The API returned an error: ' + err);
+                        return;
+                    }
+                    var events = response.data.items;
+                    if (events.length == 0) {
+                        console.log('No events found.');
+                    } else {
+                        console.log('Event from Google Calendar:');
+                        let oneMonthAgo = moment().subtract(1, 'months');
+                        let oneMonthAfter = moment().add(1, 'months');
+                        let ateliers = [];
+                        for (let event of response.data.items) {
+                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
+
+                            let test = moment(event.start.dateTime)
+                            //console.log("NOW: ",now," TEST: ",test)
+                            if (moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)) {
+                                ateliers.push({
+                                    sommaire: event.summary,
+                                    location: event.location,
+                                    dateStart: moment(event.start.dateTime).format('dddd DD MMMM YYYY HH:mm'),
+                                    dateEnd: moment(event.end.dateTime).format('-HH:mm')
+                                })
+                                //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
+
+                            }
+
+                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
+                        }
+                        console.log(ateliers);
+                        res.render('indexNotLogged', {
+                            atelier: ateliers
+                        })
+                    }
+                });
+            }
+        })
     }
 }
-
 //////////// SQL ///////////////////////
-//connection parameters
-var con = mysql.createConnection({
-    host: "huhmiel.heliohost.org",
-    user: "huhmiel",
-    password: "SimplonERN@76",
-    database: "huhmiel_CoopCafe"
-});
+// //connection parameters
+// var con = mysql.createConnection({
+//     host: "huhmiel.heliohost.org",
+//     user: "huhmiel",
+//     password: "SimplonERN@76",
+//     database: "huhmiel_CoopCafe"
+// });
 
-//Genere un log lors des erreurs sql
-con.on('error', function (err) {
-    //console.log("[mysql error]", err);
-});
+// //Genere un log lors des erreurs sql
+// con.on('error', function (err) {
+//     //console.log("[mysql error]", err);
+// });
 
 ///////////// SQL END ////////////////////

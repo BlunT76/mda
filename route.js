@@ -1,18 +1,8 @@
 module.exports = function (app) {
-    const mysql = require('mysql');
-    var con = mysql.createConnection({
-        host: "huhmiel.heliohost.org",
-        user: "huhmiel",
-        password: "SimplonERN@76",
-        database: "huhmiel_CoopCafe"
-    });
-
-    //Genere un log lors des erreurs sql
-    con.on('error', function (err) {
-        //console.log("[mysql error]", err);
-    });
+    const con = require('./connect');
 
     app.get('/profil', function (req, res) {
+        console.log(req.user)
         let sqlavis = `SELECT * FROM User WHERE pseudo = 'phil'`;
         con.query(sqlavis, function (err, resultavis) {
             console.log(resultavis)
@@ -22,6 +12,7 @@ module.exports = function (app) {
                 utilisateurs: resultavis[0]
             })
         });
+        con.end();
         
 
         //title: 'Express Login'
