@@ -32,51 +32,130 @@ moment.locale('fr', {
     weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
     weekdaysMin: 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
     longDateFormat: {
-      LT: 'HH:mm',
-      L: 'DD/MM/YYYY',
-      LL: 'D MMMM YYYY',
-      LLL: 'D MMMM YYYY LT',
-      LLLL: 'dddd D MMMM YYYY LT'
+        LT: 'HH:mm',
+        L: 'DD/MM/YYYY',
+        LL: 'D MMMM YYYY',
+        LLL: 'D MMMM YYYY LT',
+        LLLL: 'dddd D MMMM YYYY LT'
     },
     calendar: {
-      sameDay: '[Aujourdhui à] LT',
-      nextDay: '[Demain à] LT',
-      nextWeek: 'dddd [à] LT',
-      lastDay: '[Hier à] LT',
-      lastWeek: 'dddd [dernier à] LT',
-      sameElse: 'L'
+        sameDay: '[Aujourdhui à] LT',
+        nextDay: '[Demain à] LT',
+        nextWeek: 'dddd [à] LT',
+        lastDay: '[Hier à] LT',
+        lastWeek: 'dddd [dernier à] LT',
+        sameElse: 'L'
     },
     relativeTime: {
-      future: 'dans %s',
-      past: 'il y a %s',
-      s: 'quelques secondes',
-      m: 'une minute',
-      mm: '%d minutes',
-      h: 'une heure',
-      hh: '%d heures',
-      d: 'un jour',
-      dd: '%d jours',
-      M: 'un mois',
-      MM: '%d mois',
-      y: 'une année',
-      yy: '%d années'
+        future: 'dans %s',
+        past: 'il y a %s',
+        s: 'quelques secondes',
+        m: 'une minute',
+        mm: '%d minutes',
+        h: 'une heure',
+        hh: '%d heures',
+        d: 'un jour',
+        dd: '%d jours',
+        M: 'un mois',
+        MM: '%d mois',
+        y: 'une année',
+        yy: '%d années'
     },
     ordinal: function (number) {
-      return number + (number === 1 ? 'er' : 'ème');
+        return number + (number === 1 ? 'er' : 'ème');
     },
     week: {
-      dow: 1, // Monday is the first day of the week.
-      doy: 4 // The week that contains Jan 4th is the first week of the year.
+        dow: 1, // Monday is the first day of the week.
+        doy: 4 // The week that contains Jan 4th is the first week of the year.
     }
-  });
-  moment.locale('fr');
+});
+moment.locale('fr');
 
-// app.get('/', loggedIn, function (req, res) {
-//     //console.log(req.user.login)
-//     res.render('index', {
-//         user: req.user.login
-//     })
-// });
+app.get('/', loggedIn, function (req, res) {
+    //console.log(req.user.login)
+    var {
+        google
+    } = require('googleapis');
+    var privatekey = require("./privatekey.json");
+
+    // configure a JWT auth client
+    //var authClient = new googleAuth();
+    var jwtClient = new google.auth.JWT(
+        privatekey.client_email,
+        null,
+        privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
+    //authenticate request
+    jwtClient.authorize( function (err, tokens) {
+        //console.log(tokens)
+        var ateliers = [];
+        if (err) {
+            console.log(err);
+            return;
+        } else {
+            console.log("Successfully connected!");
+            //Google Calendar API
+            let calendar = google.calendar('v3');
+            calendar.events.list({
+                auth: jwtClient,
+                calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
+                singleEvents: true,
+                orderBy: 'startTime'
+            }, function (err, response) {
+                //console.log(response.data.items);
+                if (err) {
+                    console.log('The API returned an error: ' + err);
+                    return;
+                }
+                var events = response.data.items;
+                
+                if (events.length == 0) {
+                    console.log('No events found.');
+                } else {
+                    console.log('Event from Google Calendar:');
+                    let oneMonthAgo = moment().subtract(1, 'months');
+                    let oneMonthAfter = moment().add(1, 'months');
+                    //let parser = new DOMParser();
+                    for (let event of response.data.items) {
+                        let test = moment(event.start.dateTime);
+                        if (moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)) {
+                            //console.log(event);
+                            var agd = `INSERT INTO Agenda(idAgenda, dateStart, dateEnd, agendaNbr) VALUES ('${event.id}', '${event.start.dateTime}', '${event.end.dateTime}', 1) ON DUPLICATE KEY UPDATE agendaNbr = 1`;
+                            con.query(agd, function (err, result) {
+                                if (err) throw err;
+                                console.log('agenda upgraded successfully');
+                                
+                                //console.log(sqlavis);
+                                
+                            });
+                            let sqlavis = `SELECT * FROM Avis WHERE Agenda_idAgenda = ` + con.escape(event.id);
+                            con.query(sqlavis, function (err, resultavis) {
+                                if (err) throw err;
+                                console.log('avis recupéré');
+                                
+                                //console.log(ateliers);
+                                ateliers.push({
+                                    sommaire: event.summary,
+                                    location: event.location,
+                                    dateStart: moment(event.start.dateTime).format('dddd DD MMMM YYYY HH:mm'),
+                                    dateEnd: moment(event.end.dateTime).format('-HH:mm'),
+                                    description: event.description,
+                                    avis: resultavis
+                                })
+                            });
+                            
+
+                        }
+                    }
+                    console.log("ATELIERS: ", ateliers);
+                    
+                }
+                
+            });
+            
+        }
+        
+    });
+});
 
 //Lance le server
 //let server = app.listen(process.env.PORT || 3000);
@@ -145,7 +224,7 @@ app.post('/login',
             google
         } = require('googleapis');
         var privatekey = require("./privatekey.json");
-        
+
         // configure a JWT auth client
         //var authClient = new googleAuth();
         var jwtClient = new google.auth.JWT(
@@ -166,7 +245,7 @@ app.post('/login',
                     auth: jwtClient,
                     calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
                     singleEvents: true,
-                    orderBy:'startTime'
+                    orderBy: 'startTime'
                 }, function (err, response) {
                     //console.log(response.data.items);
                     if (err) {
@@ -180,21 +259,29 @@ app.post('/login',
                     } else {
                         console.log('Event from Google Calendar:');
                         let oneMonthAgo = moment().subtract(1, 'months');
-                        let oneMonthAfter = moment().add(1,'months');
+                        let oneMonthAfter = moment().add(1, 'months');
                         //let parser = new DOMParser();
-                        for (let event of response.data.items) {    
+                        for (let event of response.data.items) {
                             let test = moment(event.start.dateTime);
-                            if(moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)){
+                            if (moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)) {
+                                //console.log(event);
+                                var agd = `INSERT INTO Agenda(idAgenda, dateStart, dateEnd, agendaNbr) VALUES ('${event.id}', '${event.start.dateTime}', '${event.end.dateTime}', 1) ON DUPLICATE KEY UPDATE agendaNbr = 1`;
+                                con.query(agd, function (err, result) {
+                                    if (err) throw err;
+                                    console.log('user added successfully')
+                                });
+                                //console.log('EVENTID: ', event.id)
                                 ateliers.push({
                                     sommaire: event.summary,
                                     location: event.location,
                                     dateStart: moment(event.start.dateTime).format('dddd DD MMMM YYYY HH:mm'),
                                     dateEnd: moment(event.end.dateTime).format('-HH:mm'),
-                                    description: event.description}
-                                )
+                                    description: event.description,
+                                    id: event.id
+                                })
                             }
                         }
-                        res.render('index',{
+                        res.render('index', {
                             atelier: ateliers
                         })
                     }
@@ -222,7 +309,7 @@ app.get('/signin', function (req, res) {
 });
 
 app.post('/signin', function (req, res) {
-    console.log(req.body)
+    //console.log(req.body)
     //Now we check if username already exist, if true we send an error "login already exists"
     con.query(`SELECT * FROM User WHERE mail = '${req.body.usermail}'`, function (err, rows) {
         if (err)
@@ -254,6 +341,20 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 /////////////PASSPORT END////////////////////
+
+/////////// GESTION DES AVIS ////////////////////
+app.post('/addAvis', function (req, res) {
+    console.log(req.body)
+    let datenow = moment();
+    var sql = `INSERT INTO Avis(msg, date, User_idUser, Agenda_idAgenda) VALUES ('${req.body.Textarea}', '${datenow}', '${req.user.idUser}', '${req.body.idAtelier}')`;
+    console.log(sql)
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log('avis added successfully')
+    });
+    //req.logout();
+    res.redirect('/');
+});
 
 /////////////CALENDAR//////////////////////
 // var {
@@ -299,7 +400,7 @@ app.get('/logout', function (req, res) {
 //                 let ateliers = [];
 //                 for (let event of response.data.items) {
 //                     //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-                    
+
 //                     let test = moment(event.start.dateTime)
 //                     //console.log("NOW: ",now," TEST: ",test)
 //                     if(moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)){
@@ -310,9 +411,9 @@ app.get('/logout', function (req, res) {
 //                             dateEnd: event.end.dateTime}
 //                         )
 //                         //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-                        
+
 //                     }
-                    
+
 //                     //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
 //                 }
 //                 // console.log(ateliers);
@@ -329,7 +430,7 @@ app.get('/', loggedIn, function (req, res) {
         google
     } = require('googleapis');
     var privatekey = require("./privatekey.json");
-    
+
     // configure a JWT auth client
     //var authClient = new googleAuth();
     var jwtClient = new google.auth.JWT(
@@ -347,11 +448,11 @@ app.get('/', loggedIn, function (req, res) {
             //Google Calendar API
             let calendar = google.calendar('v3');
             calendar.events.list({
-            //calendar.calendarList.list({
+                //calendar.calendarList.list({
                 auth: jwtClient,
                 calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
                 singleEvents: true,
-                orderBy:'startTime'
+                orderBy: 'startTime'
             }, function (err, response) {
                 //console.log(response.data.items);
                 if (err) {
@@ -365,28 +466,28 @@ app.get('/', loggedIn, function (req, res) {
                 } else {
                     console.log('Event from Google Calendar:');
                     let oneMonthAgo = moment().subtract(1, 'months');
-                    let oneMonthAfter = moment().add(1,'months');
-                    
+                    let oneMonthAfter = moment().add(1, 'months');
+
                     for (let event of response.data.items) {
                         //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-                        
+
                         let test = moment(event.start.dateTime)
                         //console.log("NOW: ",now," TEST: ",test)
-                        if(moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)){
+                        if (moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)) {
                             ateliers.push({
                                 sommaire: event.summary,
                                 location: event.location,
                                 dateStart: event.start.dateTime,
-                                dateEnd: event.end.dateTime}
-                            )
+                                dateEnd: event.end.dateTime
+                            })
                             //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-                            
+
                         }
-                        
+
                         //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
                     }
                     //console.log(ateliers);
-                    res.render('index',{
+                    res.render('index', {
                         atelier: ateliers[0].sommaire
                     })
                 }
@@ -718,4 +819,3 @@ con.on('error', function (err) {
 });
 
 ///////////// SQL END ////////////////////
-

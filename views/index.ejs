@@ -34,16 +34,20 @@
                                 <div id="collapseOne<%= index %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion<%= index %>">
                                     <div class="card-body">
                                         <p class="text-secondary"><%- atelier.description %></p>
-                                        <form>
+                                        <form action="/addAvis" method="post">
                                             <div class="form-group">
                                                 <label for="exampleFormControlTextarea1" class="text-secondary">Laisser un avis</label>
-                                                <textarea class="form-control" id="Textarea<%= index %>" rows="3"></textarea>
+                                                <textarea class="form-control" name="Textarea" rows="3"></textarea>
                                             </div>
-                                        </form>
+                                            <div class="form-group">
+                                                <input type="text" name="idAtelier" class="form-control d-none" value="<%- atelier.id %>">
+                                            </div>
+                                        
                                         <div class="row">
                                         <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs">
                                             <button type="submit" class="btn btn-outline-success" value="Submit">Envoyer </button>
                                         </div>
+                                        </form>
                                         <!-- <input class="btn btn-outline-success bg-green float-right mr-2" type="submit" value="Submit"> -->
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs">
                                         <button class="btn btn-outline-success float-right" type="submit">
