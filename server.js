@@ -281,9 +281,7 @@ app.post('/login',
 
 app.get('/login', function (req, res) {
     //console.log("login page loaded")
-    res.render('login', {
-        errorMsg: ''
-    })
+    res.render('login')
     //}
 });
 
