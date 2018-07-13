@@ -1,92 +1,226 @@
 <%-include ../partials/head.ejs%>
     <%-include ../partials/nav.ejs%>
 
-<!--Carousel Wrapper-->
-<div class="container">
-    <div class="row">
+        <!--Container Row-->
+        <div class="container">
+            <div class="row">
 
-        <div class="col-md-6 sm-12">
-        <div id="multi-item-example" class="carousel slide carousel-multi-item">
+                <!--Carousel Wrapper-->
+                <div class="col-md-6 sm-12">
+                    <div class="container bg-transparent mt-5 mb-5 p-2 border border-green col rounded">
+
+                        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-interval="false">
+
+                            <!--Slides-->
+                            <div class="carousel-inner" role="listbox">
+
+                                <!--Start First slide-->
+                                <div class="carousel-item active">
+                                    <div class="col-md-4">
+                                        <div class="card mb-2 border-0" style="width:80%">
+
+                                            <div class="controls-top">
+                                                <!--Chevron Left-->
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="prev">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </a>
+
+                                                <ol class="carousel-indicators">
+                                                    <li data-target="#multi-item-example" data-slide-to="1" class="active"></li>
+                                                </ol>
+
+                                                <!--Chevron Right-->
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="next">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </a>
+
+                                                <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar1.png" style="width:70%" alt="Card avatar 1">
+                                                <div class="card-body">
+                                                    <a class="btn btn-outline-success text-success">OK</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End First slide-->
+
+
+                                <!--Start Second slide-->
+                                <div class="carousel-item">
+                                    <div class="col-md-4">
+                                        <div class="card mb-2 border-0" style="width:80%">
+
+                                            <div class="controls-top">
+                                                <!--Chevron Left-->
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="prev">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </a>
+
+                                                <ol class="carousel-indicators">
+                                                    <li data-target="#multi-item-example" data-slide-to="1" class="active"></li>
+                                                </ol>
+
+                                                <!--Chevron Right-->
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="next">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </a>
+
+                                                <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar2.png" style="width:70%" alt="Card avatar 2">
+                                                <div class="card-body">
+                                                    <a class="btn btn-outline-success text-success">OK</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Second slide-->
+
+                            </div>
+                            <!--End Slides-->
+
+                        </div>
+                    </div>
+                    <!--End container avatar-->
+
+                    <!--Nombre Merci-->
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success">Merci
+                            <span class="badge badge-light"> 14</span>
+                        </button>
+                    </div>
+
+                    <!--Ateliers selection-->
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input aria-label="Checkbox for following text input" type="checkbox">
+                            </div>
+                        </div>
+                        <span class="form-control" aria-label="Text input with checkbox" type="text">Atelier Cocagne Alimen'terre</span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input aria-label="Checkbox for following text input" type="checkbox">
+                            </div>
+                        </div>
+                        <span class="form-control" aria-label="Text input with checkbox" type="text">Brico Ordi</span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input aria-label="Checkbox for following text input" type="checkbox">
+                            </div>
+                        </div>
+                        <span class="form-control" aria-label="Text input with checkbox" type="text">Brico Vélo</span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input aria-label="Checkbox for following text input" type="checkbox">
+                            </div>
+                        </div>
+                        <span class="form-control" aria-label="Text input with checkbox" type="text">Brico Vétements</span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input aria-label="Checkbox for following text input" type="checkbox">
+                            </div>
+                        </div>
+                        <span class="form-control" aria-label="Text input with checkbox" type="text">Atelier Faîtes le vous-mêmes</span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input aria-label="Checkbox for following text input" type="checkbox">
+                            </div>
+                        </div>
+                        <span class="form-control" aria-label="Text input with checkbox" type="text">J'anime mon atelier</span>
+                    </div>
 
 
 
-    
-
-    <!--Slides-->
-    <div class="carousel-inner" role="listbox">
-
-        <!--First slide-->
-        <div class="carousel-item active">
-
-            <div class="col-md-4">
-                <div class="card mb-2" style="width:70%">
 
 
 
 
 
-                     <div class="controls-top">
-                         <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
 
-                             <ol class="carousel-indicators">
-                                <li data-target="#multi-item-example" data-slide-to="1" class="active"></li>
-                             </ol>   
-
-                        <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
-
-                    <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar1.png" style="width:70%" alt="Card avatar 1">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-outline-secondary col align-self-center"">Ok</button>
-
-      
-    
+                </div>
+                <!--End Carousel Wrapper-->
 
 
+
+
+                <!-- Infos profil -->
+                <div class="col-md-6 sm-12 ">
+
+
+                    <div class="container bg-transparent mt-5 mb-5 p-2 border border-green col rounded">
+                        <h4 class="text-center mt-2">Information</h4>
+
+                        <form action="" method="" class="m2">
+                            <div class="form-group">
+                                <label>Nom d'utilisateur:</label>
+                                <input type="text" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Adresse Email:</label>
+                                <input type="email" name="usermail" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Téléphone:</label>
+                                <input type="tel" name="usertel" class="form-control" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Code postal:</label>
+                                    <input type="text" name="zip" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label>Commune:</label>
+                                    <input type="text" name="city" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Choisir son atelier préféré:</label>
+                                <select name="atelier" class="form-control" id="exampleFormControlSelect1" required>
+                                    <option value="1">Atelier Cocagne Alimen'terre</option>
+                                    <option value="2">Brico Ordi</option>
+                                    <option value="3">Brico Vélo</option>
+                                    <option value="4">Brico Vêtements</option>
+                                    <option value="5">Atelier Faîtes le vous-mêmes</option>
+                                    <option value="6">J'anime mon atelier</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Interets Divers:</label>
+                                <input type="text" name="interest" class="form-control">
+                            </div>
+
+                        </form>
                     </div>
                 </div>
+                <!--End Infos profil-->
+
             </div>
-</div>
-</div>
         </div>
-        <!--/.First slide-->
-
-        <!--Second slide-->
-        <div class="carousel-item">
-
-            <div class="col-md-4">
-                <div class="card mb-2" style="width:70%">
-                    <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar2.png" style="width:70%" alt="Card avatar 2">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-outline-secondary col align-self-center"">Ok</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!--/.Second slide-->
-
-        
-                
-
-    </div>
-    <!--/.Slides-->
-
-</div>
-</div>
-
-<!-- Infos profil -->
-        <div class="col-md-6 sm-12"><p>Coucou!!!</p></div>
-
-
-
-
-</div>
-</div>
-<!--/.Carousel Wrapper-->
+        <!--End Container Row-->
 
 
 
 
 
 
-    <%-include ../partials/footer.ejs%>
+
+
+
+        <%-include ../partials/footer.ejs%>
