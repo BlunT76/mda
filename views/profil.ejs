@@ -89,70 +89,6 @@
                         </button>
                     </div>
 
-                    <!--Ateliers selection-->
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input aria-label="Checkbox for following text input" type="checkbox">
-                            </div>
-                        </div>
-                        <span class="form-control" aria-label="Text input with checkbox" type="text">Atelier Cocagne Alimen'terre</span>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input aria-label="Checkbox for following text input" type="checkbox">
-                            </div>
-                        </div>
-                        <span class="form-control" aria-label="Text input with checkbox" type="text">Brico Ordi</span>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input aria-label="Checkbox for following text input" type="checkbox">
-                            </div>
-                        </div>
-                        <span class="form-control" aria-label="Text input with checkbox" type="text">Brico Vélo</span>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input aria-label="Checkbox for following text input" type="checkbox">
-                            </div>
-                        </div>
-                        <span class="form-control" aria-label="Text input with checkbox" type="text">Brico Vétements</span>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input aria-label="Checkbox for following text input" type="checkbox">
-                            </div>
-                        </div>
-                        <span class="form-control" aria-label="Text input with checkbox" type="text">Atelier Faîtes le vous-mêmes</span>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input aria-label="Checkbox for following text input" type="checkbox">
-                            </div>
-                        </div>
-                        <span class="form-control" aria-label="Text input with checkbox" type="text">J'anime mon atelier</span>
-                    </div>
-
-
-
-
-
-
-
-
-
                 </div>
                 <!--End Carousel Wrapper-->
 
@@ -177,33 +113,26 @@
                             </div>
                             <div class="form-group">
                                 <label>Téléphone:</label>
-                                <input type="tel" name="usertel" class="form-control" required>
+                                <input type="tel" name="usertel" class="form-control" value="<%= utilisateurs.tel %>" required>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label>Code postal:</label>
-                                    <input type="text" name="zip" class="form-control" required>
+                                    <input type="text" name="zip" class="form-control" value="<%= utilisateurs.codePostal %>" required>
                                 </div>
                                 <div class="form-group col-md-8">
                                     <label>Commune:</label>
-                                    <input type="text" name="city" class="form-control" required>
+                                    <input type="text" name="city" class="form-control" value="<%= utilisateurs.commune %>" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleFormControlSelect1">Choisir son atelier préféré:</label>
-                                <select name="atelier" class="form-control" id="exampleFormControlSelect1" required>
-                                    <option value="1">Atelier Cocagne Alimen'terre</option>
-                                    <option value="2">Brico Ordi</option>
-                                    <option value="3">Brico Vélo</option>
-                                    <option value="4">Brico Vêtements</option>
-                                    <option value="5">Atelier Faîtes le vous-mêmes</option>
-                                    <option value="6">J'anime mon atelier</option>
-                                </select>
+                                <label>Atelier préféré:</label>
+                                <input type="atelier" name="atelierPref" class="form-control" value="" required>
                             </div>
                             <div class="form-group">
                                 <label>Interets Divers:</label>
-                                <input type="text" name="interest" class="form-control">
+                                <input type="text" name="interest" class="form-control" value="<%= utilisateurs.InteretsDivers %>" required>
                             </div>
 
                         </form>
