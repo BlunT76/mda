@@ -7,104 +7,134 @@
 
                 <!--Carousel Wrapper-->
                 <div class="col-md-6 sm-12">
-                    <div id="multi-item-example" class="carousel slide carousel-multi-item">
+                    <div class="container bg-transparent mt-5 mb-5 p-2 border border-green col rounded">
 
-                        <!--Slides-->
-                        <div class="carousel-inner" role="listbox">
+                        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-interval="false">
 
-                            <!--Start First slide-->
-                            <div class="carousel-item active">
-                                <div class="col-md-4">
-                                    <div class="card mb-2" style="width:80%">
+                            <!--Slides-->
+                            <div class="carousel-inner" role="listbox">
 
-                                        <div class="controls-top">
-                                            <!--Chevron Left-->
-                                            <a class="btn-floating" href="#multi-item-example" data-slide="prev">
-                                                <i class="fa fa-chevron-left"></i>
-                                            </a>
+                                <!--Start First slide-->
+                                <div class="carousel-item active">
+                                    <div class="col-md-4">
+                                        <div class="card mb-2 border-0" style="width:80%">
 
-                                            <ol class="carousel-indicators">
-                                                <li data-target="#multi-item-example" data-slide-to="1"></li><!--class="active" qui fait l'animation?-->
-                                            </ol>
+                                            <div class="controls-top">
+                                                <!--Chevron Left-->
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="prev">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </a>
 
-                                            <!--Chevron Right-->
-                                            <a class="btn-floating" href="#multi-item-example" data-slide="next">
-                                                <i class="fa fa-chevron-right"></i>
-                                            </a>
+                                                <ol class="carousel-indicators">
+                                                    <li data-target="#multi-item-example" data-slide-to="1" class="active"></li>
+                                                </ol>
 
-                                            <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar1.png" style="width:70%" alt="Card avatar 1">
-                                            <div class="card-body">
-                                                <button type="button" class="btn btn-outline-secondary col align-self-center">Ok</button>
+                                                <!--Chevron Right-->
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="next">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </a>
+
+                                                <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar1.png" style="width:70%" alt="Card avatar 1">
+                                                <div class="card-body">
+                                                    <a class="btn btn-outline-success text-success">OK</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--End First slide-->
+                                <!--End First slide-->
 
 
-                            <!--Start Second slide-->
-                            <div class="carousel-item">
-                                <div class="col-md-4">
-                                    <div class="card mb-2" style="width:80%">
+                                <!--Start Second slide-->
+                                <div class="carousel-item">
+                                    <div class="col-md-4">
+                                        <div class="card mb-2 border-0" style="width:80%">
 
-                                        <div class="controls-top">
-                                            <!--Chevron Left-->
-                                            <a class="btn-floating" href="#multi-item-example" data-slide="prev">
-                                                <i class="fa fa-chevron-left"></i>
-                                            </a>
+                                            <div class="controls-top">
+                                                <!--Chevron Left-->
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="prev">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </a>
 
-                                            <ol class="carousel-indicators">
-                                                <li data-target="#multi-item-example" data-slide-to="1" class="active"></li>
-                                            </ol>
+                                                <ol class="carousel-indicators">
+                                                    <li data-target="#multi-item-example" data-slide-to="1" class="active"></li>
+                                                </ol>
 
-                                            <!--Chevron Right-->
-                                            <a class="btn-floating" href="#multi-item-example" data-slide="next">
-                                                <i class="fa fa-chevron-right"></i>
-                                            </a>
+                                                <!--Chevron Right-->
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="next">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </a>
 
-                                            <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar2.png" style="width:70%" alt="Card avatar 2">
-                                            <div class="card-body">
-                                                <button type="button" class="btn btn-outline-secondary col align-self-center">Ok</button>
+                                                <img class="card-img-top img-fluid rounded mx-auto d-block" src="img/avatar2.png" style="width:70%" alt="Card avatar 2">
+                                                <div class="card-body">
+                                                    <a class="btn btn-outline-success text-success">OK</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!--End Second slide-->
+
                             </div>
-                            <!--End Second slide-->
+                            <!--End Slides-->
 
                         </div>
-                        <!--End Slides-->
-
                     </div>
                 </div>
                 <!--End Carousel Wrapper-->
 
 
 
+
                 <!-- Infos profil -->
                 <div class="col-md-6 sm-12 ">
 
-                    <!--Start accordion (huuum bonne idée? crois pas)-->
-                    <div id="accordion" role="tablist">
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingOne">
-                                <h5 class="mb-0">
-                                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="">
-                                        Présentation / Centre d'intérêts
-                                    </a>
-                                </h5>
-                            </div>
 
-                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="card-body">
-                                    Bonjour ! Moi c'est Marie-Pomponette et j'adore faire la cuisine et la soupe au Pistou!!!
+                    <div class="container bg-transparent mt-5 mb-5 p-2 border border-green col rounded">
+                        <h4 class="text-center mt-2">Information</h4>
+
+                        <form action="" method="" class="m2">
+                            <div class="form-group">
+                                <label>Nom d'utilisateur:</label>
+                                <input type="text" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Adresse Email:</label>
+                                <input type="email" name="usermail" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Téléphone:</label>
+                                <input type="tel" name="usertel" class="form-control" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Code postal:</label>
+                                    <input type="text" name="zip" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label>Commune:</label>
+                                    <input type="text" name="city" class="form-control" required>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!--End accordion-->
 
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Choisir son atelier préféré:</label>
+                                <select name="atelier" class="form-control" id="exampleFormControlSelect1" required>
+                                    <option value="1">Atelier Cocagne Alimen'terre</option>
+                                    <option value="2">Brico Ordi</option>
+                                    <option value="3">Brico Vélo</option>
+                                    <option value="4">Brico Vêtements</option>
+                                    <option value="5">Atelier Faîtes le vous-mêmes</option>
+                                    <option value="6">J'anime mon atelier</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Interets Divers:</label>
+                                <input type="text" name="interest" class="form-control">
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
                 <!--End Infos profil-->
 
