@@ -499,6 +499,26 @@ app.get('/', loggedIn, function (req, res) {
     //     user: req.user.login
     // })
 });
+
+
+
+// app.get('/profil', function (req, res) {
+//     console.log(req)
+//     let sqlavis = `SELECT * FROM User WHERE pseudo = 'phil'` ;
+//     con.query(sqlavis, function (err, resultavis) {
+//         if (err) throw err;
+//         console.log(resultavis);
+//         res.render('profil', {
+//             users: resultavis
+//         })
+
+//         //title: 'Express Login'
+//     });
+// });
+
+
+
+
 //////// GESTION DES COMPETENCES//////////////////////////
 //page Modifiez vos Competences
 app.get('/comp', function (req, res) {
