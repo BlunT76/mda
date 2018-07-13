@@ -1,7 +1,6 @@
 module.exports = function(app){
 
     app.get('/profil', function(req, res){
-        console.log(req);
         
         res.render('profil') 
             
