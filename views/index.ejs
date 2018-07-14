@@ -1,7 +1,7 @@
 <%-include ../partials/head.ejs%>
     <%-include ../partials/nav.ejs%>
-        <div class="container">
-            <h4 class="text-center text-secondary">Bienvenue</h4>
+        <div class="container mt-3">
+            <h4 class="text-center text-secondary">Bienvenue <%= user %></h4>
                 <p class="text-center text-secondary">
                     <br>Présentation de l'app
                     <br>
@@ -18,7 +18,7 @@
                 <div class="">
                     <% atelier.forEach(function(atelier, index){ %>
                         <div class="accordion m-3 shadow-sm" id="accordion<%= index %>">
-                            <div class="card border border-green">
+                            <div class="card border border-green rounded">
                                 <div class="card-header bg-transparent" id="headingOne">
                                     <h5 class="mb-0 text-orange"><%= atelier.sommaire %>
                                         <button class="btn btn-link float-right" type="button" data-toggle="collapse" data-target="#collapseOne<%= index %>" aria-expanded="true" aria-controls="collapseOne">

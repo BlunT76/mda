@@ -16,21 +16,33 @@
                     <a class="nav-link" href="/profil">Profil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/comparatif">Comparatifs</a>
+                    <!-- <a class="nav-link" href="/comparatif">Comparatifs</a> -->
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/comp">Modifiez vos compétences</a>
+                  <!-- <a class="nav-link" href="/comp">Modifiez vos compétences</a> -->
                 </li>
 				<!--<li class="nav-item">
                   <a class="nav-link" href="/compVote">Votez des compétences</a>
                 </li>-->
             </ul>
-            <form class="form-inline " action="/login/" method="POST">
+            <% if (logged == false) { %>
+            <form class="form-inline " action="/login" method="POST">
                 <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Se connecter</button>
             </form>
-            <form class="form-inline " action="/logout/" method="GET">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Se deconnecter</button>
-            </form>
+            <% } %>
+
+            <% if (logged == false) { %>
+                <form class="form-inline " action="/signin" method="GET">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Créer un compte</button>
+                </form>
+            <% } %>
+
+            <% if (logged == true) { %>
+                <form class="form-inline " action="/logout/" method="GET">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Se déconnecter</button>
+                </form>
+            <% } %>
+            
         </div>
         
     </nav>
