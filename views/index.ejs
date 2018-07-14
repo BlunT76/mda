@@ -1,9 +1,9 @@
 <%-include ../partials/head.ejs%>
     <%-include ../partials/nav.ejs%>
-        <div class="container mt-3">
+        <div class="container mt-4">
             <h4 class="text-center text-secondary">Bienvenue <%= user %></h4>
                 <p class="text-center text-secondary">
-                    <br>Présentation de l'app
+                    <br>
                     <br>
                 </p>
                 <img class="img" src="./img/logoUE.png" width="50%"><img class="img" width="7%" src="./img/CD31-logo-rvb.png">
@@ -34,6 +34,34 @@
                                 <div id="collapseOne<%= index %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion<%= index %>">
                                     <div class="card-body">
                                         <p class="text-secondary"><%- atelier.description %></p>
+                                        <h4 class="text-center text-secondary">AVIS</h4>
+                                        <div class="panel-body">
+                                        <ul class="list-unstyled">
+                                        <% avis.forEach(function(avis, index){ %>
+                                            <% if (avis.Agenda_idAgenda == atelier.id) { %> 
+                                            <li class="">
+                                                <div class="d-block">
+                                                    <span class="d-block">
+                                                        
+                                                        <img src="img/avatar<%= ava %>.png"" alt="User Avatar" class="float-left" width="6%" />
+                                                        
+                                                        <div class="header">
+                                                            <strong class="primary-font ml-1"><%= avis.username %></strong> <small class="">
+                                                            <span class="glyphicon glyphicon-time float-right"><%= avis.date %></span></small>
+                                                        </div>
+                                                        
+                                                    </span><br>
+                                                </div>
+                                                    <p class="text-align-lef">
+                                                            <%= avis.msg %>
+                                                    </p>
+                                                    <hr class="bg-orange">
+                                                
+                                            </li>
+                                            <% } %>
+                                        <% }) %>
+                                        </ul>
+                                        </div>
                                         <form action="/addAvis" method="post">
                                             <div class="form-group">
                                                 <label for="exampleFormControlTextarea1" class="text-secondary">Laisser un avis</label>
@@ -61,4 +89,4 @@
                         <% }) %>    
                 </div> 
         </div>
-        <%-include ../partials/footer.ejs%>
+<%-include ../partials/footer.ejs%>
