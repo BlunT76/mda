@@ -1,9 +1,9 @@
 <%-include ../partials/head.ejs%>
-    <%-include ../partials/navbar.ejs%>
+    <%-include ../partials/nav.ejs%>
 
 <div class="container bg-transparent mt-5 p-2 border border-green col-lg-3 rounded">
     <h4 class="text-center text-orange mt-2">Se connecter</h4>
-    <p class="text-center text-danger"><%= errorMsg %></p>
+    
     <form action="/login" method="post" class="group-form m-2">
          <div class="form-group">
             <label class="text-green">Pseudo:</label>
@@ -19,3 +19,4 @@
     </form>
     <a class="btn btn-outline-success m-2" href="/signin">Creer un compte</a>
 </div>
+<%-include ../partials/footer.ejs%>
