@@ -6,7 +6,7 @@
                     <br>
                     <br>
                 </p>
-                <img class="img" src="./img/logoUE.png" width="50%"><img class="img" width="7%" src="./img/CD31-logo-rvb.png">
+                <!-- <img class="img" src="./img/logoUE.png" width="50%"><img class="img" width="7%" src="./img/CD31-logo-rvb.png">
                 <ul class="list-unstyled">
                     <li>
                         <img src="https://simplon.co/wp-content/themes/DiviChildV2/images/logo.png" alt=""><h3>SIMPLON.CO</h3>
@@ -14,7 +14,7 @@
                     <li>
                         <p>Formations numériques et inclusives</p>
                     </li>
-                </ul>
+                </ul> -->
                 <div class="">
                     <% atelier.forEach(function(atelier, index){ %>
                         <div class="accordion m-3 shadow-sm" id="accordion<%= index %>">
@@ -42,21 +42,33 @@
                                             <li class="">
                                                 <div class="d-block">
                                                     <span class="d-block">
-                                                        
-                                                        <img src="img/avatar<%= ava %>.png"" alt="User Avatar" class="float-left" width="6%" />
+                                                        <img src="img/avatar<%= ava %>.png"" alt="User Avatar" class="float-left" width="48px">
                                                         
                                                         <div class="header">
-                                                            <strong class="primary-font ml-1"><%= avis.username %></strong> <small class="">
-                                                            <span class="glyphicon glyphicon-time float-right"><%= avis.date %></span></small>
+                                                            <strong class="primary-font ml-1"> <%= avis.username %> </strong> <small>
+                                                            <span class="glyphicon glyphicon-time float-right"> <%= avis.date %> </span></small>
                                                         </div>
                                                         
                                                     </span><br>
                                                 </div>
+                                                <div class="d-block">
                                                     <p class="text-align-lef">
                                                             <%= avis.msg %>
                                                     </p>
+                                                    <% merci.forEach(function(merci, index){ %>
+                                                        <% if (avis.User_idUser == merci.User_idUser) { %>
+                                                            
+                                                        <form action="/merci" method="post" class="group-form m-2">
+                                                            
+                                                            <button type="submit" class="btn btn-sm btn-outline-success float-right form-group" name="ID" value="<%= avis.User_idUser %>"><i class="fas fa-hands-helping"></i>  Merci
+                                                                <span class="badge badge-success"><%= merci.merci %></span>
+                                                            </button>
+                                                        </form>
+                                                        <% } %>
+                                                    <% }) %>
+                                                    <br>
                                                     <hr class="bg-orange">
-                                                
+                                                </div>
                                             </li>
                                             <% } %>
                                         <% }) %>
@@ -73,14 +85,14 @@
                                         
                                         <div class="row">
                                         <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs">
-                                            <button type="submit" class="btn btn-outline-success" value="Submit">Envoyer </button>
+                                            <button name="Submit" type="submit" class="btn btn-outline-success" value="Submit">Envoyer </button>
                                         </div>
                                         </form>
                                         <!-- <input class="btn btn-outline-success bg-green float-right mr-2" type="submit" value="Submit"> -->
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs">
+                                        <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs">
                                         <button class="btn btn-outline-success float-right" type="submit">
                                             <i class="fas fa-hands-helping"></i> Merci</button>
-                                        </div>
+                                        </div> -->
                                         </div>
                                     </div>
                                 </div>

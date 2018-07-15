@@ -1,21 +1,24 @@
 <%-include ../partials/head.ejs%>
 <%- include('../partials/nav', {logged: false}); %>
-    <div class="container mt-4">
+    <div class="container mt-4 p-5">
         <h4 class="text-center text-secondary">Bienvenue</h4>
             <p class="text-left text-secondary"><br>
                 La démarche de Coop'café propose des ateliers thématiques d'échange de savoirs faire qui repose sur l'implication de chacun et de créer du lien social.
-                Il s'agit d'un concept unique : des ateliers solidaires sont proposés pour consommer autrement et faire soi même.<br>
+                Il s'agit d'un concept unique : des ateliers solidaires sont proposés pour consommer autrement et faire soi même.<br><br>
                 C'est une équipe de bénévoles passionnés qui aident à réparer les objets (brico vélo, brico ordi et brico vêtements), proposent des ateliers de cuisine et de jardinage (cocagne Alim'Terre), échangent leurs compétences et leurs savoirs faire;
-                Vous pouvez aussi créer et apprendre d'autres astuces avec les ateliers DIY (faîtes le vous même).<br>
+                Vous pouvez aussi créer et apprendre d'autres astuces avec les ateliers DIY (faîtes le vous même).<br><br>
                 L'action repose sur plusieurs notions que sont la réparation, l'échange de savoir faire et de compétences mais aussi prendre le temps de discuter.
                 Ainsi vous venez par exemple avec votre objet à réparer, vous êtes acteur de sa réparation, de plus, cela contribue à protéger la planète et vous aurez appris quelque chose.<br><br>
-                Vous avez besoin d'une aide en réparation ? Apprendre des recettes de cuisine originales ou autres truc et astuces ? Consultez le programme et inscrivez vous au ateliers.<br>
-                Cela touche toutes les générations alors lancez-vous !<br>
-                Vous avez un talent ?<br> 
-                Venez le partager en animant votre propre atelier !<br>
+                Vous avez besoin d'une aide en réparation ? Apprendre des recettes de cuisine originales ou autres truc et astuces ? Consultez le programme et inscrivez vous au ateliers.
+                Cela touche toutes les générations alors lancez-vous !<br><br>
+                Vous avez un talent ? Venez le partager en animant votre propre atelier !<br><br>
             </p>
-            <img class="img" src="./img/logoUE.png" width="50%"><img class="img" width="7%" src="./img/CD31-logo-rvb.png">
-            <ul class="list-unstyled">
+            <img class="img-fluid" src="./img/logoUEHG.png" >
+            <ul class="list-unstyled text-center">
+                <br>
+                <li>
+                    <p class="text-secondary">Projet réalisé par les apprenants Simplon de la promotion 2 de Saint-Gaudens</p>
+                </li>
                 <li>
                     <img src="https://simplon.co/wp-content/themes/DiviChildV2/images/logo.png" alt=""><h3>SIMPLON.CO</h3>
                 </li>
@@ -23,6 +26,9 @@
                     <p>Formations numériques et inclusives</p>
                 </li>
             </ul>
+            <br>
+            <hr class="bg-orange">
+            <br>
         <div class="">
             <h4 class="h4 text-center text-secondary">AGENDA</h4>
             <p class="text-center text-secondary">Se connecter pour voir les ateliers précédents et laisser un commentaire</p>
@@ -39,7 +45,39 @@
             </div>
             <% }) %>    
         </div>
-        <h5 class="text-center text-secondary">Les avantages à créer un compte</h5>
+        <br>
+        <hr class="bg-orange">
+        <br>
+        <h4 class="h4 text-center text-secondary mt-4">Créer un compte et :</h4>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item text-secondary">Consulter l'agenda des ateliers passés et futur</li>
+            <li class="list-group-item text-secondary">S'inscrire aux ateliers d'un simple clic <button class="btn btn-outline-success">
+                <!-- <i class="fas fa-hands-helping"></i> -->
+                 S'inscrire</button></li>
+            <li class="list-group-item text-secondary">Laisser des commentaires aux ateliers</li>
+            <li class="list-group-item text-secondary">Remercier les personnes rencontrés lors des ateliers d'un simple clic <button class="btn btn-outline-success">
+                <i class="fas fa-hands-helping"></i> Merci</button></li>
+            <li class="list-group-item text-secondary">Contacter les autres utilisateurs de Coop'Café</li>
+            <li class="list-group-item text-secondary">Consulter une carte affichant les lieux des différents ateliers</li>
+            <li class="list-group-item text-secondary">Personnaliser votre avatar en gagnant des merci<br> 
+                <img src="img/avatar62.png"" alt="User Avatar" class="" width="64px" />
+                <img src="img/avatar78.png"" alt="User Avatar" class="" width="64px" />
+                <img src="img/avatar5.png"" alt="User Avatar" class="" width="64px" />
+                <img src="img/avatar69.png"" alt="User Avatar" class="" width="64px" />
+                <img src="img/avatar52.png"" alt="User Avatar" class="" width="64px" />
+                <img src="img/avatar14.png"" alt="User Avatar" class="" width="64px" /><br>
+                128 avatars a gagner !!
+            </li>
+          </ul>
+            <p class="text-left text-secondary">
+                Consulter l'agenda des ateliers passés et futur<br>
+                S'inscrire aux ateliers d'un simple clic<br>
+                Laisser des commentaires aux ateliers .<br>
+                Remercier les personnes rencontrés lors des ateliers d'un simple clic<br>
+                Contacter les autres utilisateurs de Coop'Café<br>
+                Consulter une carte affichant les lieux des différents ateliers<br>
+                Personaliser votre profil en gagnant des avatars et des merci.<br>
+            </p>
             <p class="text-left text-secondary"><br>
                 En ayant un compte sur Coop'Café, vous pouvez consulter l'agenda des ateliers passés et futur, y laisser des commentaires et vous inscrire aux ateliers souhaités.<br>
                 Vous crééz un profil que vous pouvez personaliser grâce à des avatars. Vous pouvez consulter le profil des autres personnes inscrite et entrer en contact avec elles.<br>

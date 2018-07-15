@@ -180,10 +180,17 @@ app.post('/signin', function (req, res) {
                 var sql = `INSERT INTO User(mail, password, pseudo, codePostal, commune, accordCarte, InteretsDivers, avatar, tel, Ateliers_idAtelier) VALUES ('${req.body.usermail}', '${hash}', '${req.body.username}', '${req.body.zip}', '${req.body.city}', '${req.body.mapask}', '${req.body.interest}', '1', '${req.body.usertel}', '${req.body.atelier}')`;
                 con.query(sql, function (err, result) {
                     if (err) throw err;
-                    console.log('user added successfully')
+                    console.log('user added successfully');
+                    console.log("RESULT SIGNIN: ", result);
+                    let sql = `INSERT INTO Merci(merci,User_idUser) VALUES (0, ${result.insertId})`;
+                    con.query(sql, function (err, result) {
+                        if (err) throw err;
+                        res.redirect('/');
+                    });
                 });
             });
-            res.redirect('/');
+
+            
         }
     });
 });
@@ -332,17 +339,24 @@ app.get('/index', loggedIn, function (req, res) {
                             })
                         }
                     }
-                    let sql = `SELECT * FROM Avis`;
-                        con.query(sql, function (err, result) {
+                    let sqlAvis = `SELECT * FROM Avis;`;
+                        con.query(sqlAvis, function (err, result) {
                             if (err) throw err;
-                            //console.log('avis added successfully')
-                            res.render('index', {
-                                atelier: ateliers,
-                                user: req.user.pseudo,
-                                logged: true,
-                                avis: result,
-                                ava: req.user.avatar
-                            })
+                            //console.log("AVIS: ", result)
+                            let sqlMerci = `SELECT * FROM Merci;`;
+                            con.query(sqlMerci, function (err, resultMerci) {
+                                if (err) throw err;
+                                console.log("MERCI: ",resultMerci)
+                                res.render('index', {
+                                    atelier: ateliers,
+                                    user: req.user.pseudo,
+                                    logged: true,
+                                    avis: result,
+                                    ava: req.user.avatar,
+                                    merci: resultMerci
+                                })
+                            });
+                            
                         });
                     
                 }
@@ -367,7 +381,23 @@ app.post('/addAvis', function (req, res) {
     //req.logout();
     res.redirect('/index');
 });
-
+//////////////////////////////////////////////
+//////////////GESTION DES MERCI
+app.post('/merci', function (req, res){
+    console.log(req.body.ID, req.user.idUser)
+    if(req.body.ID == req.user.idUser){
+        res.redirect('index');
+    } else {
+        console.log("augmenter les merci!!!");
+        let sql = `UPDATE Merci SET merci = merci + 1 WHERE User_idUser = ${req.body.ID}`;
+        console.log(sql)
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log('merci added successfully');
+            res.redirect('index');
+        });
+    }
+});
 /////////////CALENDAR//////////////////////
 // var {
 //     google
