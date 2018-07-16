@@ -4,14 +4,18 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass";//add reset for a full reset
-
+@font-face {font-family:"Aldo SemiBold";src:url("Aldo_PC.eot?") format("eot"),url("Aldo_PC.woff") format("woff"),url("Aldo_PC.ttf") format("truetype"),url("Aldo_PC.svg#Aldo-SemiBold") format("svg");font-weight:normal;font-style:normal;}
 /*Variables globales*/
 
 /* general */
-body {
-    font-family: 'Open Sans', sans-serif;
+p {
+    font-family: 'Ubuntu', sans-serif !important;
+    
 }
 
+h1,h2,h3,h4,h5,h6{
+    font-family:"Aldo SemiBold";
+}
 /* header */
 header {
     position: sticky;
@@ -35,12 +39,36 @@ img {
     background-color: #F1AD32;
 }
 
+.bg-red {
+    background-color: #841411;
+}
+
+.bg-blue {
+    background-color: #1B9996;
+}
+
+.bg-yellow {
+    background-color: #EBDB01;
+}
+
 .text-green {
     color: #93CBA6;
 }
 
 .text-orange {
     color: #F1AD32 !important;
+}
+
+.text-red {
+    color: #841411;
+}
+
+.text-blue {
+    color: #1B9996;
+}
+
+.text-yellow {
+    color: #EBDB01;
 }
 
 .i-big {
@@ -84,4 +112,8 @@ img {
 
 .carousel-control-prev-icon{
     color:black !important;
+}
+
+.rounded-xl {
+    border-radius: 30px !important;
 }

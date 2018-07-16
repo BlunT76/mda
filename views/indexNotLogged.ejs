@@ -1,19 +1,17 @@
 <%-include ../partials/head.ejs%>
 <%- include('../partials/nav', {logged: false}); %>
     <div class="container mt-4 p-5">
-        <h4 class="text-center text-secondary">Bienvenue</h4>
+            <!--<div class="mx-auto"></div>-->
+                <img class="img-fluid w-75 mx-auto d-block" src="./img/logoUEHG.png">
+            
+        <h1 class="text-center text-secondary">Bienvenu sur Coop'Café !</h1>
             <p class="text-left text-secondary"><br>
-                La démarche de Coop'café propose des ateliers thématiques d'échange de savoirs faire qui repose sur l'implication de chacun et de créer du lien social.
-                Il s'agit d'un concept unique : des ateliers solidaires sont proposés pour consommer autrement et faire soi même.<br><br>
-                C'est une équipe de bénévoles passionnés qui aident à réparer les objets (brico vélo, brico ordi et brico vêtements), proposent des ateliers de cuisine et de jardinage (cocagne Alim'Terre), échangent leurs compétences et leurs savoirs faire;
-                Vous pouvez aussi créer et apprendre d'autres astuces avec les ateliers DIY (faîtes le vous même).<br><br>
-                L'action repose sur plusieurs notions que sont la réparation, l'échange de savoir faire et de compétences mais aussi prendre le temps de discuter.
-                Ainsi vous venez par exemple avec votre objet à réparer, vous êtes acteur de sa réparation, de plus, cela contribue à protéger la planète et vous aurez appris quelque chose.<br><br>
-                Vous avez besoin d'une aide en réparation ? Apprendre des recettes de cuisine originales ou autres truc et astuces ? Consultez le programme et inscrivez vous au ateliers.
-                Cela touche toutes les générations alors lancez-vous !<br><br>
-                Vous avez un talent ? Venez le partager en animant votre propre atelier !<br><br>
+                Coop’Café, c’est l’appli du Repar Café de la Maison de l’Avenir Comminges Pyrénées, pour poursuivre plus loin l’expérience de ces ateliers d’échanges de savoir-faire !<br><br>
+                Le Répar Café est un panel d’ateliers d’échanges de savoir-faire, animés par des bénévoles passionnés. Les ateliers permettent à ceux qui le souhaitent de transmettre un talent, une passion, des astuces, dans un cadre convivial ! Au Repar Café, les savoirs circulent, s’échangent et se mélangent, en sortant du schéma sachant/apprenant. Tout le monde peut animer, il suffit d’avoir l’envie et la MDA propose des outils pour structurer sa séance !<br><br>
+                Le Répar Café, c’est aussi une philosophie : réparer pour ne plus jeter, consommer autrement, lutter contre l’obsolescence programmée en apprenant à faire soi-même !<br><br>
+                Ces ateliers sont aussi des espaces de rencontres et d’échanges, pour créer du lien, encourager les synergies, soutenir l’émergence de projets communs.<br><br>
+                Coop Café, c’est un outil permettant de faire vivre la communauté Repar Café, en s’inscrivant aux ateliers, en proposant ses talents, en poursuivant les échanges entamés pendant les ateliers… C’est aussi l’occasion de distribuer les « Mercis » aux animateurs, animatrices et usagers, qui part leur enthousiasme, leur bonne humeur et leur savoir-faire font vivre le Repar Café, jour après jour !<br>
             </p>
-            <img class="img-fluid" src="./img/logoUEHG.png" >
             <ul class="list-unstyled text-center">
                 <br>
                 <li>
@@ -30,7 +28,7 @@
             <hr class="bg-orange">
             <br>
         <div class="">
-            <h4 class="h4 text-center text-secondary">AGENDA</h4>
+            <h3 class="text-center text-secondary">AGENDA</h3>
             <p class="text-center text-secondary">Se connecter pour voir les ateliers précédents et laisser un commentaire</p>
             <% atelier.forEach(function(atelier, index){ %>
             <div class="accordion m-3 shadow-sm" id="accordion<%= index %>">
@@ -48,7 +46,7 @@
         <br>
         <hr class="bg-orange">
         <br>
-        <h4 class="h4 text-center text-secondary mt-4">Créer un compte et :</h4>
+        <h3 class="text-center text-secondary mt-4">Créer un compte et :</h3>
         <ul class="list-group list-group-flush">
             <li class="list-group-item text-secondary">Consulter l'agenda des ateliers passés et futur</li>
             <li class="list-group-item text-secondary">S'inscrire aux ateliers d'un simple clic <button class="btn btn-outline-success">
@@ -69,20 +67,5 @@
                 128 avatars a gagner !!
             </li>
           </ul>
-            <p class="text-left text-secondary">
-                Consulter l'agenda des ateliers passés et futur<br>
-                S'inscrire aux ateliers d'un simple clic<br>
-                Laisser des commentaires aux ateliers .<br>
-                Remercier les personnes rencontrés lors des ateliers d'un simple clic<br>
-                Contacter les autres utilisateurs de Coop'Café<br>
-                Consulter une carte affichant les lieux des différents ateliers<br>
-                Personaliser votre profil en gagnant des avatars et des merci.<br>
-            </p>
-            <p class="text-left text-secondary"><br>
-                En ayant un compte sur Coop'Café, vous pouvez consulter l'agenda des ateliers passés et futur, y laisser des commentaires et vous inscrire aux ateliers souhaités.<br>
-                Vous crééz un profil que vous pouvez personaliser grâce à des avatars. Vous pouvez consulter le profil des autres personnes inscrite et entrer en contact avec elles.<br>
-                De plus, pour les personnes qui ont donné leurs accord, vous pouvez consulter une carte listant les participants par villes / villages et les lieux des différents ateliers.<br>
-                Enfin, vous pouvez remercier les personnes rencontrés lors des ateliers, participants comme animateurs, grâce au bouton merci sur les ateliers (pour les animateurs) ou bien directement sur le profil de la personne concerné. 
-            </p>
     </div>
 <%-include ../partials/footer.ejs%>
