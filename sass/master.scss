@@ -56,3 +56,23 @@ img {
 .border-green {
     border-color: #93CBA6 !important;
 }
+
+.text-deco-none {
+    text-decoration: none !important;
+}
+
+.shadow-circle {
+    -webkit-box-shadow: 4px 3px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 4px 1px 0px rgba(0,0,0,0.75), 0px 0px 0px 1px #FFF inset;
+    border: none !important;
+    border-radius: 50%;
+}
+
+.shadow-circle:hover {
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75), 0px 0px 0px 1px #FFF inset;
+    border: none !important;
+    border-radius: 50%;
+}
