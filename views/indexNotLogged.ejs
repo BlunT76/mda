@@ -1,7 +1,7 @@
 <%-include ../partials/head.ejs%>
 <%- include('../partials/nav', {logged: false}); %>
     <div class="container mt-4 p-5">
-        <h4 class="text-center text-secondary">Bienvenue</h4>
+        <h3 class="text-center text-secondary">BIENVENUE</h3>
             <p class="text-left text-secondary"><br>
                 La démarche de Coop'café propose des ateliers thématiques d'échange de savoirs faire qui repose sur l'implication de chacun et de créer du lien social.
                 Il s'agit d'un concept unique : des ateliers solidaires sont proposés pour consommer autrement et faire soi même.<br><br>
@@ -30,7 +30,7 @@
             <hr class="bg-orange">
             <br>
         <div class="">
-            <h4 class="h4 text-center text-secondary">AGENDA</h4>
+            <h3 class="text-center text-secondary">AGENDA</h3>
             <p class="text-center text-secondary">Se connecter pour voir les ateliers précédents et laisser un commentaire</p>
             <% atelier.forEach(function(atelier, index){ %>
             <div class="accordion m-3 shadow-sm" id="accordion<%= index %>">
@@ -48,7 +48,7 @@
         <br>
         <hr class="bg-orange">
         <br>
-        <h4 class="h4 text-center text-secondary mt-4">Créer un compte et :</h4>
+        <h3 class="text-center text-secondary mt-4">Créer un compte et :</h3>
         <ul class="list-group list-group-flush">
             <li class="list-group-item text-secondary">Consulter l'agenda des ateliers passés et futur</li>
             <li class="list-group-item text-secondary">S'inscrire aux ateliers d'un simple clic <button class="btn btn-outline-success">
@@ -69,20 +69,5 @@
                 128 avatars a gagner !!
             </li>
           </ul>
-            <p class="text-left text-secondary">
-                Consulter l'agenda des ateliers passés et futur<br>
-                S'inscrire aux ateliers d'un simple clic<br>
-                Laisser des commentaires aux ateliers .<br>
-                Remercier les personnes rencontrés lors des ateliers d'un simple clic<br>
-                Contacter les autres utilisateurs de Coop'Café<br>
-                Consulter une carte affichant les lieux des différents ateliers<br>
-                Personaliser votre profil en gagnant des avatars et des merci.<br>
-            </p>
-            <p class="text-left text-secondary"><br>
-                En ayant un compte sur Coop'Café, vous pouvez consulter l'agenda des ateliers passés et futur, y laisser des commentaires et vous inscrire aux ateliers souhaités.<br>
-                Vous crééz un profil que vous pouvez personaliser grâce à des avatars. Vous pouvez consulter le profil des autres personnes inscrite et entrer en contact avec elles.<br>
-                De plus, pour les personnes qui ont donné leurs accord, vous pouvez consulter une carte listant les participants par villes / villages et les lieux des différents ateliers.<br>
-                Enfin, vous pouvez remercier les personnes rencontrés lors des ateliers, participants comme animateurs, grâce au bouton merci sur les ateliers (pour les animateurs) ou bien directement sur le profil de la personne concerné. 
-            </p>
     </div>
 <%-include ../partials/footer.ejs%>

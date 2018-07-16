@@ -4,14 +4,18 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass";//add reset for a full reset
-
+@font-face {font-family:"Aldo SemiBold";src:url("Aldo_PC.eot?") format("eot"),url("Aldo_PC.woff") format("woff"),url("Aldo_PC.ttf") format("truetype"),url("Aldo_PC.svg#Aldo-SemiBold") format("svg");font-weight:normal;font-style:normal;}
 /*Variables globales*/
 
 /* general */
-body {
-    font-family: 'Open Sans', sans-serif;
+p {
+    font-family: 'Ubuntu', sans-serif !important;
+    
 }
 
+h1,h2,h3,h4,h5,h6{
+    font-family:"Aldo SemiBold";
+}
 /* header */
 header {
     position: sticky;
@@ -75,4 +79,8 @@ img {
     box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75), 0px 0px 0px 1px #FFF inset;
     border: none !important;
     border-radius: 50%;
+}
+
+.rounded-xl {
+    border-radius: 30px !important;
 }
