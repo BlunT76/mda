@@ -557,15 +557,22 @@ function loggedIn(req, res, next) {
 }
 
 app.get('/profil', loggedIn, function (req, res) {
-    console.log("PROFIL: ", req.user)
+    //console.log("PROFIL: ", req.user)
     let sqlavis = `SELECT * FROM User WHERE pseudo = '${req.user.pseudo}'`;
-    con.query(sqlavis, function (err, resultavis) {
-        console.log(resultavis)
+    con.query(sqlavis, function (err, resultProfil) {
+        console.log("resultPROFIL: ",resultProfil);
         if (err) throw err;
-        console.log('avis recupéré');
-        res.render('profil', {
-            utilisateurs: resultavis[0],
-            logged: true
-        })
+        let sqlMerci = `SELECT merci FROM Merci WHERE User_idUser = '${req.user.idUser}'`;
+        con.query(sqlMerci, function (err, resultMerci) {
+            if (err) throw err;
+            console.log("resultMERCI: ",resultMerci);
+            res.render('profil', {
+                utilisateurs: resultProfil[0],
+                logged: true,
+                merci: resultMerci[0]
+            })
+        });
+        //console.log('avis recupéré');
+        
     });
 });
