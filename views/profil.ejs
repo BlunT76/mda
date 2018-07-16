@@ -91,10 +91,17 @@
 
                     <!--Nombre Merci-->
                     <div class="form-group">
-                        <button type="button" class="btn btn-outline-success float">
+                        
+                        <!--<button type="button" class="btn btn-outline-success float">
                             <i class="fas fa-hands-helping"></i> Merci
                             <span class="badge badge-light"> 14</span>
-                        </button>
+                       </button>-->
+                        <form action="/merci" method="post" class="group-form m-2">
+                                                            
+                            <button type="submit" class="btn btn-sm btn-outline-success float-right form-group" name="ID" value="<%= utilisateurs.idUser %>"><i class="fas fa-hands-helping"></i>  Merci
+                                <span class="badge badge-success"><%= utilisateurs.merci %></span>
+                            </button>
+                        </form>
                     </div>
 
 
