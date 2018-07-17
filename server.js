@@ -330,16 +330,21 @@ app.get('/index', loggedIn, function (req, res) {
                             var agd = `INSERT INTO Agenda(idAgenda, dateStart, dateEnd, agendaNbr) VALUES ('${event.id}', '${event.start.dateTime}', '${event.end.dateTime}', 1) ON DUPLICATE KEY UPDATE agendaNbr = 1`;
                             con.query(agd, function (err, result) {
                                 if (err) throw err;
-                                console.log('user added successfully')
+                                console.log('agenda updated successfully')
                             });
                             //console.log('EVENTID: ', event.id)
+                            let reserOk = false;
+                            if(moment(test).isAfter(moment())){
+                                reserOk = true;
+                            }
                             ateliers.push({
                                 sommaire: event.summary,
                                 location: event.location,
                                 dateStart: moment(event.start.dateTime).format('dddd DD MMMM YYYY HH:mm'),
                                 dateEnd: moment(event.end.dateTime).format('-HH:mm'),
                                 description: event.description,
-                                id: event.id
+                                id: event.id,
+                                reserverOk: reserOk
                             })
                         }
                     }
@@ -405,7 +410,7 @@ app.post('/merci', function (req, res){
 });
 
 /////////////GESTION DE LA CARTE ////////////
-app.get('/map', function(req,res){
+app.get('/map', loggedIn, function(req,res){
     let sqlMap = `SELECT * FROM Carte `;
     con.query(sqlMap, function (err, result) {
         if (err) throw err;
@@ -435,6 +440,13 @@ app.post('/addUserOnMap', function(req, res){
     });
 });
 
+//////////////RESERVER/////////////
+app.post('/reserver', function(req, res){
+    console.log(req.body)
+    sendnotif()
+    res.redirect('index');
+});
+
 /////////////ENVOI DES MAILS //////////////
 function sendnotif(subj, texte){
     console.log("sending mail");
@@ -447,6 +459,7 @@ function sendnotif(subj, texte){
       };
       sgMail.send(msg);
 }
+
 
 /////////////CALENDAR//////////////////////
 // var {
@@ -634,7 +647,26 @@ app.get('/mention', function (req, res) {
 });
 
 app.get('/profilPublic', function (req, res) {
+    
     res.render('profilPublic', {
         logged: true
-    })
+    });
+});
+
+
+// PAGE POUR LES TEST SQL
+app.get('/test', function (req, res){
+
+    // debut de la partie SQL
+    let sqlrequete = `SELECT * FROM User `;// <-- la requete au format mysql, la on selectionne tout dans la table User
+    con.query(sqlrequete, function (err, result) { // <-- on lance la requete
+        if (err) throw err; // <-- si ya une erreur ca plante le server et indique l'erreur (en gros hein sql pas tres bavard)
+        console.log(result); // <-- on affiche le resultat de la requete dans le terminal
+        // fin de la partie SQL
+
+        //on redirige vers la page test
+        res.render('test', {
+            logged: true
+        });
+    }); 
 });
