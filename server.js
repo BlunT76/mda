@@ -609,3 +609,9 @@ app.get('/profil', loggedIn, function (req, res) {
         
     });
 });
+
+app.get('/mention', function (req, res) {
+    res.render('mention',{
+        logged: true
+    })
+});
