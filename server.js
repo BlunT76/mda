@@ -398,6 +398,36 @@ app.post('/merci', function (req, res){
         });
     }
 });
+
+/////////////GESTION DE LA CARTE ////////////
+app.get('/map', function(req,res){
+    let sqlMap = `SELECT * FROM Carte `;
+    con.query(sqlMap, function (err, result) {
+        if (err) throw err;
+        console.log(JSON.stringify(result));
+        //let arr = JSON.stringify(result);
+        res.render('map', {
+            logged: true,
+            usersLocation: result
+        });
+    });
+    
+});
+
+app.post('/addUserOnMap', function(req, res){
+    console.log(req.body.location)
+    let sqlLocation = `INSERT INTO Carte (idUser,username, position) VALUES ('${req.user.idUser}', '${req.user.pseudo}', '${req.body.location}') 
+    ON DUPLICATE KEY UPDATE position = '${req.body.location}'`
+    con.query(sqlLocation, function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.render('map', {
+            logged: true
+        })
+    });
+});
+
+
 /////////////CALENDAR//////////////////////
 // var {
 //     google

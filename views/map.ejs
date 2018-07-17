@@ -1,0 +1,78 @@
+<%-include ../partials/headmap.ejs%>
+    <%-include ../partials/nav.ejs%>
+
+    <div class="container">
+        
+        <form action="/addUserOnMap" method="post" class="group-form mt-5">       
+            <input class="btn btn-sm btn-outline-success float-left mr-2 d-none" name="location" id="btnAddOnMap" value="" required>
+                
+            
+            <button  type="submit" class="btn btn-sm btn-outline-success form-group"  >
+                    <i class="fas fa-map-marker-alt"></i>  M'ajouter sur la carte
+                </button>
+        </form>
+        <div id="mapid" style="width: 100%; height: 600px;" class="border text-center"></div>
+        <%- usersLocation[0].username%>
+        
+        <script>
+            //Affichage de la carte
+            var mymap = L.map('mapid').setView([43.107863, 0.723799], 17);
+
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                    '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                id: 'mapbox.streets'
+            }).addTo(mymap);
+
+            //Affichage de la MJC
+            var mda = L.circle([43.109216, 0.726584], {
+                color: 'green',
+                radius: 20,
+                closeOnClick: false
+            }).addTo(mymap);
+            mda.bindPopup("<b>Maison de l'avenir</b><br>Répar'Café").openPopup();
+
+            var popup = L.popup();
+            var test = <% usersLocation[0].username %>
+            console.log(<%= usersLocation %>)
+            //Affichages des utilisateurs
+            //let arr = [];
+            //arr = <%= usersLocation%>;
+            <% usersLocation %>.forEach(function(elem, index){ 
+                console.log(elem[index].username)
+            //var elem.username = L.marker(elem.position).addTo(mymap);
+            //marker.bindPopup(`<b>${elem.username}</b>`).openPopup();
+           });
+            
+            
+            
+            
+            
+
+            function onMapClick(e) {
+                popup
+                    .setLatLng(e.latlng)
+                    .setContent("You clicked the map at " + e.latlng.toString())
+                    .openOn(mymap);
+            }
+
+            mymap.on('click', onMapClick);
+
+            //Ajout d'un utilisateur sur la carte
+            let btntoggle = document.getElementById('btnAddOnMap');
+            mymap.on('click', function(e) {
+                console.log($('#btnAddOnMap').val())
+                
+                btntoggle.value = e.latlng;
+            //alert(e.latlng);
+            });
+        </script>
+    </div>
+
+
+
+
+
+<%-include ../partials/footer.ejs%>
