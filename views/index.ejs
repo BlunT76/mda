@@ -1,11 +1,9 @@
 <%-include ../partials/head.ejs%>
     <%-include ../partials/nav.ejs%>
-        <div class="container mt-4 bg-green rounded-xl">
-            <h4 class="text-center text-secondary">Bienvenue <%= user %></h4>
-                <p class="text-center text-secondary">
-                    <br>
-                    <br>
-                </p>
+        <div class="container mt-4">
+            <h2 class="text-center text-orange m-5">Bienvenue <%= user %></h2>
+            
+                
                 <!-- <img class="img" src="./img/logoUE.png" width="50%"><img class="img" width="7%" src="./img/CD31-logo-rvb.png">
                 <ul class="list-unstyled">
                     <li>
@@ -15,18 +13,24 @@
                         <p>Formations numériques et inclusives</p>
                     </li>
                 </ul> -->
-                <div class="">
+                <div class="bg-green p-5 rounded-xl">
                     <% atelier.forEach(function(atelier, index){ %>
                         <div class="accordion m-3 shadow-sm" id="accordion<%= index %>">
                             <div class="card border border-green rounded">
                                 <div class="card-header bg-transparent" id="headingOne">
-                                    <h5 class="mb-0 text-orange"><%= atelier.sommaire %>
+                                    <h3 class="mb-0 text-orange"><%= atelier.sommaire %>
                                         <button class="btn btn-link float-right" type="button" data-toggle="collapse" data-target="#collapseOne<%= index %>" aria-expanded="true" aria-controls="collapseOne">
                                             <i class="fas fa-angle-down i-big-green"></i>
                                         </button>
-                                    </h5> 
+                                    </h3> 
                                     <span class="text-green"><%= atelier.dateStart %></span><span class="text-green"><%= atelier.dateEnd %></span>
-                                    <p class="text-green"><%= atelier.location %></p>
+                                    <p class="text-green mb-1"><%= atelier.location %></p>
+                                    <% if (atelier.reserverOk){ %>
+                                    <form action="/reserver" method="post" class="group-form mt-1">                  
+                                        <button type="submit" class="btn btn-sm btn-outline-success form-group" name="<%= atelier.sommaire %>:<%= atelier.dateStart %>">Reserver
+                                        </button>
+                                    </form>
+                                <% } %>
                                 </div>
                                 <div>
                                    
@@ -34,7 +38,7 @@
                                 <div id="collapseOne<%= index %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion<%= index %>">
                                     <div class="card-body">
                                         <p class="text-secondary"><%- atelier.description %></p>
-                                        <h4 class="text-center text-secondary">AVIS</h4>
+                                        <h4 class="text-center text-orange">AVIS</h4>
                                         <div class="panel-body">
                                         <ul class="list-unstyled">
                                         <% avis.forEach(function(avis, index){ %>
@@ -53,12 +57,11 @@
                                                 </div>
                                                 <div class="d-block">
                                                     <p class="text-align-lef">
-                                                            <%= avis.msg %>
+                                                        <%= avis.msg %>
                                                     </p>
                                                     <% merci.forEach(function(merci, index){ %>
                                                         <% if (avis.User_idUser == merci.User_idUser) { %>
-                                                        <
-                                                        <form action="/merci" method="post" class="group-form m-2">
+                                                            <form action="/merci" method="post" class="group-form m-2">
                                                             
                                                             <button type="submit" class="btn btn-sm btn-outline-success float-right form-group" name="ID" value="<%= avis.User_idUser %>"><i class="fas fa-hands-helping"></i>  Merci
                                                                 <span class="badge badge-success"><%= merci.merci %></span>
