@@ -398,6 +398,39 @@ app.post('/merci', function (req, res){
         });
     }
 });
+
+/////////////GESTION DE LA CARTE ////////////
+app.get('/map', function(req,res){
+    let sqlMap = `SELECT * FROM Carte `;
+    con.query(sqlMap, function (err, result) {
+        if (err) throw err;
+        let arr = JSON.stringify(result);
+        //arr.push(result)
+        console.log (arr)
+        //console.log(JSON.stringify(result));
+        
+        //let arr = JSON.stringify(result);
+        res.render('map', {
+            logged: true,
+            usersLocation: arr
+        });
+    });
+    
+});
+
+app.post('/addUserOnMap', function(req, res){
+    console.log(req.body.location)
+    let sqlLocation = `INSERT INTO Carte (idUser, username, lat, lng) VALUES ('${req.user.idUser}', '${req.user.pseudo}', '${req.body.lat}','${req.body.lng}') 
+    ON DUPLICATE KEY UPDATE lat = '${req.body.lat}', lng = '${req.body.lng}'`;
+    console.log(sqlLocation)
+    con.query(sqlLocation, function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.redirect('map')
+    });
+});
+
+
 /////////////CALENDAR//////////////////////
 // var {
 //     google
@@ -575,4 +608,10 @@ app.get('/profil', loggedIn, function (req, res) {
         //console.log('avis recupéré');
         
     });
+});
+
+app.get('/mention', function (req, res) {
+    res.render('mention',{
+        logged: true
+    })
 });
