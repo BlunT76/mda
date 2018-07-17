@@ -632,3 +632,9 @@ app.get('/mention', function (req, res) {
         logged: true
     })
 });
+
+app.get('/profilPublic', function (req, res) {
+    res.render('profilPublic', {
+        logged: true
+    })
+});
