@@ -13,10 +13,10 @@
                         <p>Formations numériques et inclusives</p>
                     </li>
                 </ul> -->
-                <div class="bg-green p-5 rounded-xl">
+                <div class=" p-5 rounded-xl border border-green">
                     <% atelier.forEach(function(atelier, index){ %>
-                        <div class="accordion m-3 shadow-sm" id="accordion<%= index %>">
-                            <div class="card border border-green rounded">
+                        <div class="accordion m-3 shadow rounded-xl" id="accordion<%= index %>">
+                            <div class="card border border-orange rounded">
                                 <div class="card-header bg-transparent" id="headingOne">
                                     <h3 class="mb-0 text-orange"><%= atelier.sommaire %>
                                         <button class="btn btn-link float-right" type="button" data-toggle="collapse" data-target="#collapseOne<%= index %>" aria-expanded="true" aria-controls="collapseOne">
@@ -35,7 +35,7 @@
                                 <div>
                                    
                                 </div>
-                                <div id="collapseOne<%= index %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion<%= index %>">
+                                <div id="collapseOne<%= index %>" class="collapse rounded-xl" aria-labelledby="headingOne" data-parent="#accordion<%= index %>">
                                     <div class="card-body">
                                         <p class="text-secondary"><%- atelier.description %></p>
                                         <h4 class="text-center text-orange">AVIS</h4>
