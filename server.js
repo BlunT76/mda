@@ -404,11 +404,15 @@ app.get('/map', function(req,res){
     let sqlMap = `SELECT * FROM Carte `;
     con.query(sqlMap, function (err, result) {
         if (err) throw err;
-        console.log(JSON.stringify(result));
+        let arr = JSON.stringify(result);
+        //arr.push(result)
+        console.log (arr)
+        //console.log(JSON.stringify(result));
+        
         //let arr = JSON.stringify(result);
         res.render('map', {
             logged: true,
-            usersLocation: result
+            usersLocation: arr
         });
     });
     
@@ -416,14 +420,13 @@ app.get('/map', function(req,res){
 
 app.post('/addUserOnMap', function(req, res){
     console.log(req.body.location)
-    let sqlLocation = `INSERT INTO Carte (idUser,username, position) VALUES ('${req.user.idUser}', '${req.user.pseudo}', '${req.body.location}') 
-    ON DUPLICATE KEY UPDATE position = '${req.body.location}'`
+    let sqlLocation = `INSERT INTO Carte (idUser, username, lat, lng) VALUES ('${req.user.idUser}', '${req.user.pseudo}', '${req.body.lat}','${req.body.lng}') 
+    ON DUPLICATE KEY UPDATE lat = '${req.body.lat}', lng = '${req.body.lng}'`;
+    console.log(sqlLocation)
     con.query(sqlLocation, function (err, result) {
         if (err) throw err;
         console.log(result);
-        res.render('map', {
-            logged: true
-        })
+        res.redirect('map')
     });
 });
 

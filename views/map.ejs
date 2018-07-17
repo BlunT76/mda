@@ -4,15 +4,15 @@
     <div class="container">
         
         <form action="/addUserOnMap" method="post" class="group-form mt-5">       
-            <input class="btn btn-sm btn-outline-success float-left mr-2 d-none" name="location" id="btnAddOnMap" value="" required>
-                
+            <input class="btn btn-sm btn-outline-success float-left mr-2 d-none" name="lat" id="btnAddOnMap" value="" required>
+            <input class="btn btn-sm btn-outline-success float-left mr-2 d-none" name="lng" id="btnAddOnMap2" value="" required>
             
             <button  type="submit" class="btn btn-sm btn-outline-success form-group"  >
                     <i class="fas fa-map-marker-alt"></i>  M'ajouter sur la carte
                 </button>
         </form>
         <div id="mapid" style="width: 100%; height: 600px;" class="border text-center"></div>
-        <%- usersLocation[0].username%>
+        
         
         <script>
             //Affichage de la carte
@@ -35,16 +35,35 @@
             mda.bindPopup("<b>Maison de l'avenir</b><br>Répar'Café").openPopup();
 
             var popup = L.popup();
-            var test = <% usersLocation[0].username %>
-            console.log(<%= usersLocation %>)
+
+            var test = <%-usersLocation %>
+            console.log(test)
+            for (var i = 0; i < test.length; i++) {
+                var obj = test[i];
+                console.log(obj.username, obj.lat, obj.lng)
+                
+                var elem = L.marker(L.latLng(obj.lat,obj.lng)).addTo(mymap);
+                elem.bindPopup(`<b>${obj.username}</b>`).openPopup();
+            }
+            //var getTest = <%#= test  %>;  //var test is now assigned to getTest which will only work on browsers
+           //console.log(getTest);
+            // for (var i = 0, l = <%- usersLocation %>.length; i < l; i++) {
+            //     var obj = <%- usersLocation %>[i];
+            //     console.log(obj.username)
+            // }
+            //console.log(test)
             //Affichages des utilisateurs
+            // var test = document.getElementById('test').value;
+            // var test = JSON.parse(test);
+            // console.log(test);
+
+            //console.log(test)
             //let arr = [];
             //arr = <%= usersLocation%>;
-            <% usersLocation %>.forEach(function(elem, index){ 
-                console.log(elem[index].username)
+            
             //var elem.username = L.marker(elem.position).addTo(mymap);
             //marker.bindPopup(`<b>${elem.username}</b>`).openPopup();
-           });
+           //});
             
             
             
@@ -54,7 +73,7 @@
             function onMapClick(e) {
                 popup
                     .setLatLng(e.latlng)
-                    .setContent("You clicked the map at " + e.latlng.toString())
+                    .setContent("Vous êtes ici: " + e.latlng.toString())
                     .openOn(mymap);
             }
 
@@ -62,10 +81,13 @@
 
             //Ajout d'un utilisateur sur la carte
             let btntoggle = document.getElementById('btnAddOnMap');
+
             mymap.on('click', function(e) {
                 console.log($('#btnAddOnMap').val())
-                
-                btntoggle.value = e.latlng;
+                console.log("E: ",e.latlng, e.latlng.lat, e.latlng.lng)
+                document.getElementById('btnAddOnMap').value = e.latlng.lat;
+                document.getElementById('btnAddOnMap2').value = e.latlng.lng;
+                console.log(document.getElementById('btnAddOnMap').value,document.getElementById('btnAddOnMap2').value)
             //alert(e.latlng);
             });
         </script>
