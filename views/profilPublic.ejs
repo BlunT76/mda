@@ -1,0 +1,86 @@
+<%-include ../partials/head.ejs%>
+    <%-include ../partials/nav.ejs%>
+
+    <!--Container Row-->
+    <div class="container">
+        <div class="row">
+
+        <!--Avatar Perso-->
+        <div class="col-md-6 sm-12">
+            <img class="mx-auto d-block w-60" src="img/avatar1.png" alt="Avatar">
+        </div>
+           
+
+        <!--Nombre Merci-->
+        <form action="/merci" method="post" class="group-form m-2">
+            <button type="submit" class="btn btn-sm btn-outline-info float-right form-group" name="ID" value="<%= utilisateurs.idUser %>">
+                <i class="fas fa-hands-helping"></i> Merci<span class="badge badge-info"><%= merci.merci %></span>
+            </button>
+        </form>
+
+
+            <!--Contactez-moi-->
+            <form action="/contactezMoi" method="post" class="group-form m-2">
+                <button type="submit" class="btn btn-sm btn-outline-info float-left form-group"> Contactez-moi !</button>
+            </form>
+            
+        </div>
+    </div>
+
+
+
+
+
+            <!-- Infos profil -->
+            <div class="col-md-6 sm-12 ">
+
+
+                <div class="container bg-green mt-5 mb-5 p-2 border border-green col rounded">
+                    <h4 class="text-center mt-2">Information</h4>
+
+                    <form action="" method="" class="m2">
+                        <div class="form-group">
+                            <label>Nom d'utilisateur:</label>
+                            <input type="text" name="username" class="form-control" value="<%= utilisateurs.pseudo %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Adresse Email:</label>
+                            <input type="email" name="usermail" class="form-control" value="<%= utilisateurs.mail %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Téléphone:</label>
+                            <input type="tel" name="usertel" class="form-control" value="<%= utilisateurs.tel %>" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Code postal:</label>
+                                <input type="text" name="zip" class="form-control" value="<%= utilisateurs.codePostal %>" required>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <label>Commune:</label>
+                                <input type="text" name="city" class="form-control" value="<%= utilisateurs.commune %>" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Atelier préféré:</label>
+                            <input type="atelier" name="atelierPref" class="form-control" value="<%= utilisateurs.Ateliers_idAtelier %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Interets Divers:</label>
+                            <input type="text" name="interest" class="form-control" value="<%= utilisateurs.InteretsDivers %>" required>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!--End Infos profil-->
+
+            </div>
+            </div>
+            <!--End Container Row-->
+
+
+
+
+
+            <%-include ../partials/footer.ejs%>
