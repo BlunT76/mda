@@ -16,6 +16,7 @@
     "gulp-sass": "^4.0.1"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
     "bcrypt": "^3.0.0",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.6.1",

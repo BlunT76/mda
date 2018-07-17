@@ -5,6 +5,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcrypt");
 const moment = require('moment');
+const mailkey = require('./mailconnect');
+const sgMail = require('@sendgrid/mail');
+const admin = require ('./admin');
+sgMail.setApiKey(mailkey);
 let app = express();
 require('./route')(app);
 //require('./moment_fr')(app);
@@ -374,6 +378,7 @@ app.post('/addAvis', function (req, res) {
     let datenow = moment().format('dddd DD MMMM YYYY HH:mm');
     var sql = `INSERT INTO Avis(msg, date, username, User_idUser, Agenda_idAgenda) VALUES (`+ con.escape(req.body.Textarea)+`, '${datenow}','${req.user.pseudo}', '${req.user.idUser}', '${req.body.idAtelier}')`;
     console.log(sql)
+    sendnotif(`Nouvel avis de ${req.user.pseudo} `, `${req.user.pseudo} le ${datenow} <br> ${req.body.Textarea}`)
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log('avis added successfully')
@@ -430,6 +435,18 @@ app.post('/addUserOnMap', function(req, res){
     });
 });
 
+/////////////ENVOI DES MAILS //////////////
+function sendnotif(subj, texte){
+    console.log("sending mail");
+    let msg = {
+        to: admin,
+        from: 'CoopCafe@maisondelavenir.eu',
+        subject: subj,
+        text: `Ceci est un message automatique: ${texte}`,
+        html: `<strong>Ceci est un message automatique, ne pas répondre</strong><br><p>${texte}</p>`,
+      };
+      sgMail.send(msg);
+}
 
 /////////////CALENDAR//////////////////////
 // var {
