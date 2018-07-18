@@ -185,7 +185,7 @@ app.post('/signin', function (req, res) {
                 con.query(sql, function (err, result) {
                     if (err) throw err;
                     console.log('user added successfully');
-                    console.log("RESULT SIGNIN: ", result);
+                    //console.log("RESULT SIGNIN: ", result);
                     let sql = `INSERT INTO Merci(merci,User_idUser) VALUES (0, ${result.insertId})`;
                     con.query(sql, function (err, result) {
                         if (err) throw err;
@@ -269,7 +269,7 @@ app.get('/', function (req, res) {
 
                         //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
                     }
-                    console.log(ateliers);
+                    //console.log(ateliers);
                     res.render('indexNotLogged', {
                         atelier: ateliers,
                         logged: false
@@ -355,7 +355,7 @@ app.get('/index', loggedIn, function (req, res) {
                             let sqlMerci = `SELECT * FROM Merci;`;
                             con.query(sqlMerci, function (err, resultMerci) {
                                 if (err) throw err;
-                                console.log("MERCI: ",resultMerci)
+                                //console.log("MERCI: ",resultMerci)
                                 res.render('index', {
                                     atelier: ateliers,
                                     user: req.user.pseudo,
@@ -379,10 +379,10 @@ app.get('/index', loggedIn, function (req, res) {
 
 //Envoi des avis vers le serveur et les ajoute dans la table avis
 app.post('/addAvis', function (req, res) {
-    console.log(req.body)
+    //console.log(req.body)
     let datenow = moment().format('dddd DD MMMM YYYY HH:mm');
-    var sql = `INSERT INTO Avis(msg, date, username, User_idUser, Agenda_idAgenda) VALUES (`+ con.escape(req.body.Textarea)+`, '${datenow}','${req.user.pseudo}', '${req.user.idUser}', '${req.body.idAtelier}')`;
-    console.log(sql)
+    let sql = `INSERT INTO Avis(msg, date, username, User_idUser, Agenda_idAgenda) VALUES (`+ con.escape(req.body.Textarea)+`, '${datenow}','${req.user.pseudo}', '${req.user.idUser}', '${req.body.idAtelier}')`;
+    //console.log(sql)
     sendnotif(`Nouvel avis de ${req.user.pseudo} `, `${req.user.pseudo} le ${datenow} <br> ${req.body.Textarea}`)
     con.query(sql, function (err, result) {
         if (err) throw err;
@@ -394,13 +394,13 @@ app.post('/addAvis', function (req, res) {
 //////////////////////////////////////////////
 //////////////GESTION DES MERCI
 app.post('/merci', function (req, res){
-    console.log(req.body.ID, req.user.idUser)
+    //console.log(req.body.ID, req.user.idUser)
     if(req.body.ID == req.user.idUser){
         res.redirect('index');
     } else {
-        console.log("augmenter les merci!!!");
+        //console.log("augmenter les merci!!!");
         let sql = `UPDATE Merci SET merci = merci + 1 WHERE User_idUser = ${req.body.ID}`;
-        console.log(sql)
+        //console.log(sql)
         con.query(sql, function (err, result) {
             if (err) throw err;
             console.log('merci added successfully');
@@ -429,21 +429,23 @@ app.get('/map', loggedIn, function(req,res){
 });
 
 app.post('/addUserOnMap', function(req, res){
-    console.log(req.body.location)
+    //console.log(req.body.location)
     let sqlLocation = `INSERT INTO Carte (idUser, username, lat, lng) VALUES ('${req.user.idUser}', '${req.user.pseudo}', '${req.body.lat}','${req.body.lng}') 
     ON DUPLICATE KEY UPDATE lat = '${req.body.lat}', lng = '${req.body.lng}'`;
-    console.log(sqlLocation)
+    //console.log(sqlLocation)
     con.query(sqlLocation, function (err, result) {
         if (err) throw err;
-        console.log(result);
+        //console.log(result);
         res.redirect('map')
     });
 });
 
 //////////////RESERVER/////////////
 app.post('/reserver', function(req, res){
-    console.log(req.body)
-    sendnotif()
+    //console.log(JSON.stringify(req.body))
+    let corp = JSON.stringify(req.body)
+    //console.log("RESERVATION: ", `Demande de reservation: ${corp} par ${req.user.pseudo}`)
+    sendnotif('Demande de reservation', `Demande de reservation: ${corp} par ${req.user.pseudo}`)
     res.redirect('index');
 });
 
@@ -611,7 +613,7 @@ app.get('/', loggedIn, function (req, res) {
 //check if user is logged in
 //redirige la page profil si user pas connecté
 function loggedIn(req, res, next) {
-    console.log("LOGGED IN/ ", req.user)
+    //console.log("LOGGED IN/ ", req.user)
     if (req.user) {
         next();
     } else {
@@ -623,12 +625,12 @@ app.get('/profil', loggedIn, function (req, res) {
     //console.log("PROFIL: ", req.user)
     let sqlavis = `SELECT * FROM User WHERE pseudo = '${req.user.pseudo}'`;
     con.query(sqlavis, function (err, resultProfil) {
-        console.log("resultPROFIL: ",resultProfil);
+        //console.log("resultPROFIL: ",resultProfil);
         if (err) throw err;
         let sqlMerci = `SELECT merci FROM Merci WHERE User_idUser = '${req.user.idUser}'`;
         con.query(sqlMerci, function (err, resultMerci) {
             if (err) throw err;
-            console.log("resultMERCI: ",resultMerci);
+            //console.log("resultMERCI: ",resultMerci);
             res.render('profil', {
                 utilisateurs: resultProfil[0],
                 logged: true,

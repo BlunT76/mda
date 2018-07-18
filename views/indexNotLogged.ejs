@@ -5,15 +5,15 @@
                 <img class="img-fluid w-25 mt-1 mx-auto d-block" src="./img/logoUEHG.png">
                 
 
-                <h1 class="text-red text-center">Bienvenue sur Coop'Café</h1> 
-                <!--caroussel-->
-                
+                <h1 class="text-orange text-center">Bienvenue sur Coop'Café</h1> 
+    </div>    <!--caroussel-->
+                <div class="container-fluid p-0">
                 <div id="carouselExampleControls"  class="carousel slide" data-ride="carousel">
                           
                     <div class="carousel-inner">
                             
                         <div class="carousel-item carousel-bg-transparent active">                    
-                            <img class="mx-auto d-block w-80 img-fluid" src="img/6027.png" alt="First slide">
+                            <img class="mx-auto d-block w-100 img-fluid" src="img/6027.png" alt="First slide">
                             <div class="carousel-caption d-none d-md-block img-fluid">
                                 
                             </div>
@@ -36,20 +36,21 @@
                         </div>
 
                         <div class="carousel-item carousel-bg-transparent">
-                            <img class="mx-auto d-block w-60 img-fluid" src="img/6064.png" alt="Third slide">
+                            <img class="mx-auto d-block w-60 img-fluid" src="img/5340.png" alt="Third slide">
                         </div>
                     </div>
 
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <!-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                       <span class="sr-only">Previous</span>
                     </a>
                     <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
                       <span class="sr-only">Next</span>
-                    </a>
+                    </a> -->
                 </div>
-                
+            </div>
+            <div class="container mt-4 pb-5">
                 <!-- </div>
             </div> -->
             <p class="text-left text-secondary"><br>
@@ -65,7 +66,8 @@
                     <p class="text-secondary">Projet réalisé par les apprenants Simplon de la promotion 2 de Saint-Gaudens</p>
                 </li>
                 <li>
-                    <img src="https://simplon.co/wp-content/themes/DiviChildV2/images/logo.png" alt=""><h3>SIMPLON.CO</h3>
+                    <a href="https://simplon.co/" target="_blank" id="logo"><img src="https://simplon.co/wp-content/themes/DiviChildV2/images/logo.png" ><h3>SIMPLON.CO</a>
+
                 </li>
                 <li>
                     <p>Formations numériques et inclusives</p>
@@ -75,15 +77,15 @@
             <hr class="bg-orange">
             <br>
         <div class="">
-            <h3 class="text-center text-secondary">AGENDA</h3>
+            <h3 class="text-center text-orange">AGENDA</h3>
             <p class="text-center text-secondary">Se connecter pour voir les ateliers précédents et laisser un commentaire</p>
             <% atelier.forEach(function(atelier, index){ %>
             <div class="accordion m-3 shadow-sm" id="accordion<%= index %>">
                 <div class="card border border-green rounded">
                     <div class="card-header bg-transparent" id="headingOne">
                         <h3 class="mb-0 text-orange"><%= atelier.sommaire %></h3> 
-                        <span class="text-green"><%= atelier.dateStart %></span>
-                        <span class="text-green"><%= atelier.dateEnd %></span>
+                        <span class="text-blue"><%= atelier.dateStart %></span>
+                        <span class="text-blue"><%= atelier.dateEnd %></span>
                         <p class="text-green"><%= atelier.location %></p>
                     </div>
                 </div>
@@ -94,8 +96,8 @@
         <hr class="bg-orange">
         <br>
         <h3 class="text-center text-orange mt-4">Créer un compte et :</h3>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item text-secondary">Consulter l'agenda des ateliers passés et futur</li>
+        <ul class="list-grou list-group-flush list-unstyled">
+            <li class="list-group-item text-secondary ">Consulter l'agenda des ateliers passés et futur</li>
             <li class="list-group-item text-secondary">S'inscrire aux ateliers d'un simple clic <button class="btn btn-outline-success">
                 <!-- <i class="fas fa-hands-helping"></i> -->
                  S'inscrire</button></li>
