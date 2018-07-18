@@ -79,8 +79,8 @@ moment.locale('fr');
 
 
 //Lance le server
-//let server = app.listen(process.env.PORT || 3000);
-let server = app.listen(3002);
+let server = app.listen(process.env.PORT || 3002);
+//let server = app.listen(3002);
 
 
 ///////PASSPORT an LOGIN/SIGNIN //////////////
@@ -189,7 +189,7 @@ app.post('/signin', function (req, res) {
                     if (err) throw err;
                     console.log('user added successfully');
                     //console.log(`Inscription d'un nouvel utilisateur`, `${req.body.username}<br>${req.body.usermail}<br>${req.body.usertel}<br>${req.body.zip}<br>${req.body.city}<br>${req.body.atelier}<br>${req.body.interest}`)
-                    sendnotif(`Inscription d'un nouvel utilisateur`, `${req.body.username}<br>${req.body.usermail}<br>${req.body.usertel}<br>${req.body.zip}<br>${req.body.city}<br>${req.body.atelier}<br>${req.body.interest}`)
+                    sendnotif(`Inscription d'un nouvel utilisateur`, `${req.body.username}<br>${req.body.usermail}<br>${req.body.usertel}<br>${req.body.zip}<br>${req.body.city}`)
                     //console.log("RESULT SIGNIN: ", result);
                     let sql = `INSERT INTO Merci(merci,User_idUser) VALUES (0, ${result.insertId})`;
                     con.query(sql, function (err, result) {
@@ -358,15 +358,21 @@ app.get('/index', loggedIn, function (req, res) {
                             let sqlMerci = `SELECT * FROM Merci;`;
                             con.query(sqlMerci, function (err, resultMerci) {
                                 if (err) throw err;
-                                //console.log("MERCI: ",resultMerci)
-                                res.render('index', {
-                                    atelier: ateliers,
-                                    user: req.user.pseudo,
-                                    logged: true,
-                                    avis: result,
-                                    ava: req.user.avatar,
-                                    merci: resultMerci
+                                let sqlAvatar = `SELECT idUser, avatar FROM User;`;
+                                con.query(sqlAvatar, function (err, resAvatar){
+                                    if (err) throw err;
+                                    console.log("AVATARS: ",resAvatar)
+                                    res.render('index', {
+                                        atelier: ateliers,
+                                        user: req.user.pseudo,
+                                        logged: true,
+                                        avis: result,
+                                        ava: resAvatar,
+                                        merci: resultMerci
+                                    })
                                 })
+                                //console.log("MERCI: ",resultMerci)
+                                
                             });
                             
                         });
@@ -450,6 +456,19 @@ app.post('/reserver', function(req, res){
     //console.log("RESERVATION: ", `Demande de reservation: ${corp} par ${req.user.pseudo}`)
     sendnotif('Demande de reservation', `Demande de reservation: ${corp} par ${req.user.pseudo}`)
     res.redirect('index');
+});
+
+/////////////CHOIX DES AVATARS ////////////
+app.post('/avatar', function(req, res){
+    console.log(req.body)
+    let sqlAv = `UPDATE User SET avatar =`+ con.escape(req.body.choixAvatar)+` WHERE idUser = ` + con.escape(req.user.idUser);
+    con.query(sqlAv, function (err, result) {
+        if (err) throw err;
+        //console.log(result);
+        res.redirect('profil')
+    });
+    //console.log(sqlAv)
+    //UPDATE Merci SET merci = merci + 1 WHERE User_idUser = ${req.body.ID}
 });
 
 /////////////ENVOI DES MAILS //////////////

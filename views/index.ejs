@@ -47,8 +47,11 @@
                                             <li class="">
                                                 <div class="d-block">
                                                     <span class="d-block">
-                                                        <img src="img/avatar<%= ava %>.png"" alt="User Avatar" class="float-left" width="48px">
-                                                        
+                                                        <% ava.forEach(function(ava, index){ %>
+                                                            <% if (avis.User_idUser == ava.idUser) { %>
+                                                                <img src="img/avatar<%= ava.avatar %>.png"" alt="User Avatar" class="float-left" width="48px">
+                                                            <% } %>
+                                                        <% }) %>
                                                         <div class="header">
                                                             <strong class="primary-font ml-1"> <%= avis.username %> </strong> <small>
                                                             <span class="glyphicon glyphicon-time float-right"> <%= avis.date %> </span></small>

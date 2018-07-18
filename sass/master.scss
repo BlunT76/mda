@@ -141,6 +141,10 @@ img {
     width:100%;
   }
 
- a:link  {
-     text-decoration:none;
-    }
+a:link  {
+    text-decoration:none;
+}
+
+.list-group-flush .list-group-item {
+    border: none !important;
+}

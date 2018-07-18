@@ -6,7 +6,7 @@
     var avaMax = Math.floor(merci.merci/5)+3;
         for (var i = 2; i < avaMax; i++){
             avatars.push(`img/avatar${i}.png`);
-        }
+        };
     %>
         <!--Container Row-->
         <div class="container">
@@ -21,11 +21,11 @@
                         <div id="carouselExampleControls"data-interval="false" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="mx-auto d-block w-60 img-fluid" src="img/avatar1.png" alt="First slide">
+                                    <img class="mx-auto d-block w-60 " src="img/avatar1.png" alt="First slide">
                                 </div>
                                     <% avatars.forEach(function(avatars, index){ %>
                                     <div class="carousel-item">
-                                        <img class="mx-auto d-block w-60 img-fluid" src="<%= avatars %>" alt="Second slide">
+                                        <img class="mx-auto d-block w-60" src="<%= avatars %>" alt="Second slide">
                                     </div>
                                     <% }) %> 
                                 <!-- <div class="carousel-item">
@@ -44,9 +44,12 @@
                             <p class="text-center text-blue mt-3">Gagnez de nouveaux avatars en recevant des Merci</p>
                             <p class="text-center text-blue m-2">5 Merci = 1 nouvel avatar</p>
                             <!--Nombre Merci-->
-                            <form action="/merci" method="post" class="group-form m-1 text-center">
-                                <button type="submit" class="btn btn-sm btn-outline-info form-group" name="ID" value="<%= utilisateurs.idUser %>">Actuellement:
-                                    <span class="badge badge-info ml-1"> <%= merci.merci %> </span><i class="fas fa-hands-helping ml-2"></i>
+                            <button class="btn btn-sm btn-outline-info form-group" name="ID" value="<%= utilisateurs.idUser %>">Actuellement:
+                                <span class="badge badge-info ml-1"> <%= merci.merci %> </span><i class="fas fa-hands-helping ml-2"></i>
+                            </button>
+                            <form action="/avatar" method="post" class="group-form m-1 float-right">
+                                <button type="submit" class="btn btn-sm btn-outline-info form-group" name="choixAvatar" id="choixAvatar" value="<%= utilisateurs.idUser %>">Choisir cet avatar
+                                    
                                 </button>
                             </form>
                         </div>
@@ -112,6 +115,7 @@
         </div>
         <!--End Container Row-->
 
+        
 
 
 
@@ -121,3 +125,14 @@
 
 
         <%-include ../partials/footer.ejs%>
+        <script>
+                $( document ).ready(function() {
+                    console.log("test doc")
+                    $('#carouselExampleControls').on('slide.bs.carousel', function (av) {
+                    //console.log("test", av.to+1);
+                $('#choixAvatar').val(av.to+1);
+                //console.log($('#choixAvatar').val());
+              })
+                })
+                
+            </script>
