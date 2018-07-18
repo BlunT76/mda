@@ -175,16 +175,21 @@ app.post('/signin', function (req, res) {
         if (rows.length) {
             let error = "Adresse Email déja utilisé";
             res.render('signin', {
-                errorMsg: error
+                errorMsg: error,
+                logged: false
             })
         } else {
             console.log("we can create user");
             bcrypt.hash(req.body.password, 10, function (err, hash) {
                 // Store hash in your password DB.
-                var sql = `INSERT INTO User(mail, password, pseudo, codePostal, commune, accordCarte, InteretsDivers, avatar, tel, Ateliers_idAtelier) VALUES ('${req.body.usermail}', '${hash}', '${req.body.username}', '${req.body.zip}', '${req.body.city}', '${req.body.mapask}', '${req.body.interest}', '1', '${req.body.usertel}', '${req.body.atelier}')`;
+                
+                var sql = `INSERT INTO User(mail, password, pseudo, codePostal, commune, InteretsDivers, avatar, tel, Ateliers_idAtelier) VALUES (` + con.escape(req.body.usermail)+","+ con.escape(hash)+","+ con.escape(req.body.username)+","+ con.escape(req.body.zip)+","+ con.escape(req.body.city)+","+ con.escape(req.body.interest)+","+ con.escape("1")+","+ con.escape(req.body.usertel)+","+ con.escape(req.body.atelier)+")";
+                console.log(sql)
                 con.query(sql, function (err, result) {
                     if (err) throw err;
                     console.log('user added successfully');
+                    //console.log(`Inscription d'un nouvel utilisateur`, `${req.body.username}<br>${req.body.usermail}<br>${req.body.usertel}<br>${req.body.zip}<br>${req.body.city}<br>${req.body.atelier}<br>${req.body.interest}`)
+                    sendnotif(`Inscription d'un nouvel utilisateur`, `${req.body.username}<br>${req.body.usermail}<br>${req.body.usertel}<br>${req.body.zip}<br>${req.body.city}<br>${req.body.atelier}<br>${req.body.interest}`)
                     //console.log("RESULT SIGNIN: ", result);
                     let sql = `INSERT INTO Merci(merci,User_idUser) VALUES (0, ${result.insertId})`;
                     con.query(sql, function (err, result) {
@@ -192,9 +197,7 @@ app.post('/signin', function (req, res) {
                         res.redirect('/');
                     });
                 });
-            });
-
-            
+            });  
         }
     });
 });
