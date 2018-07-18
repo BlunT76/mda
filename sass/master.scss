@@ -81,12 +81,21 @@ img {
     color: #93CBA6;
 }
 
+.i-big-orange {
+    font-size: 2em;
+    color: #F1AD32;
+}
+
 .border-green {
     border-color: #93CBA6 !important;
 }
 
 .border-orange {
     border-color: #F1AD32 !important;
+}
+
+.border-blue {
+    border-color: #1B9996;
 }
 
 .text-deco-none {
@@ -127,3 +136,7 @@ img {
     background-color: transparent;
     border-radius: 0;
 }
+
+.carousel .img-fluid {
+    width:100%;
+  }

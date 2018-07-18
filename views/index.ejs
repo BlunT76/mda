@@ -13,21 +13,21 @@
                         <p>Formations numériques et inclusives</p>
                     </li>
                 </ul> -->
-                <div class=" p-5 rounded-xl border border-green">
+                <div class=" rounded-xl border border-green .d-none .d-sm-block">
                     <% atelier.forEach(function(atelier, index){ %>
-                        <div class="accordion m-3 shadow rounded-xl" id="accordion<%= index %>">
+                        <div class="accordion m-3 mt-5 mb-5 shadow" id="accordion<%= index %>">
                             <div class="card border border-orange rounded">
                                 <div class="card-header bg-transparent" id="headingOne">
                                     <h3 class="mb-0 text-orange"><%= atelier.sommaire %>
                                         <button class="btn btn-link float-right" type="button" data-toggle="collapse" data-target="#collapseOne<%= index %>" aria-expanded="true" aria-controls="collapseOne">
-                                            <i class="fas fa-angle-down i-big-green"></i>
+                                            <i class="fas fa-chevron-circle-down i-big-orange "></i>
                                         </button>
                                     </h3> 
-                                    <span class="text-green"><%= atelier.dateStart %></span><span class="text-green"><%= atelier.dateEnd %></span>
+                                    <span class="text-blue"><%= atelier.dateStart %></span><span class="text-blue"><%= atelier.dateEnd %></span>
                                     <p class="text-green mb-1"><%= atelier.location %></p>
                                     <% if (atelier.reserverOk){ %>
-                                    <form action="/reserver" method="post" class="group-form mt-1">                  
-                                        <button type="submit" class="btn btn-sm btn-outline-success form-group" name="<%= atelier.sommaire %>:<%= atelier.dateStart %>">Reserver
+                                    <form id="reservation" action="/reserver" method="post" class="group-form mt-1">                  
+                                        <button type="submit" class="btn btn-sm btn-outline-success form-group" name="<%= atelier.sommaire %> : <%= atelier.dateStart %>">Reserver
                                         </button>
                                     </form>
                                 <% } %>
@@ -39,6 +39,7 @@
                                     <div class="card-body">
                                         <p class="text-secondary"><%- atelier.description %></p>
                                         <h4 class="text-center text-orange">AVIS</h4>
+                                        <hr class="bg-orange">
                                         <div class="panel-body">
                                         <ul class="list-unstyled">
                                         <% avis.forEach(function(avis, index){ %>
@@ -77,7 +78,7 @@
                                         <% }) %>
                                         </ul>
                                         </div>
-                                        <form action="/addAvis" method="post">
+                                        <form id="avis" action="/addAvis" method="post">
                                             <div class="form-group">
                                                 <label for="exampleFormControlTextarea1" class="text-secondary">Laisser un avis</label>
                                                 <textarea class="form-control" name="Textarea" rows="3" required></textarea>

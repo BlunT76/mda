@@ -1,45 +1,45 @@
 <%-include ../partials/head.ejs%>
     <%-include ../partials/nav.ejs%>
 
-<div class="container bg-transparent mt-5 mb-5 p-2 border border-green col col-lg-4 rounded">
-    <h4 class="text-center mt-2">S'enregistrer</h4>
+<div class="container bg-transparent mt-5 mb-5 p-3 border border-green col col-lg-4 rounded-xl">
+    <h3 class="text-center text-orange mt-2">S'enregistrer</h3>
     <p class="text-center text-danger"><%= errorMsg %></p>
     <form action="/signin" method="post" class="m2">
          <div class="form-group">
-            <label>Nom d'utilisateur:</label>
-            <input type="text" name="username" class="form-control" required>
+            <label class="text-blue">Nom d'utilisateur:</label>
+            <input type="text" name="username" class="form-control border-orange" required>
         </div>
          <div class="form-group">
-            <label>Mot de passe:</label>
-            <input type="password" name="password" class="form-control" required>
+            <label class="text-blue">Mot de passe:</label>
+            <input type="password" name="password" class="form-control border-orange" required>
         </div>
         <div class="form-group">
-            <label>Adresse Email:</label>
-            <input type="email" name="usermail" class="form-control" required>
+            <label class="text-blue">Adresse Email:</label>
+            <input type="email" name="usermail" class="form-control border-orange" required>
         </div>
         <div class="form-group">
-            <label>Téléphone:</label>
-            <input type="tel" name="usertel" class="form-control" required>
+            <label class="text-blue">Téléphone:</label>
+            <input type="tel" name="usertel" class="form-control border-orange" required>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label>Code postal:</label>
-                <input type="text" name="zip" class="form-control" required>
+                <label class="text-blue">Code postal:</label>
+                <input type="text" name="zip" class="form-control border-orange" required>
             </div>
             <div class="form-group col-md-8">
-                <label>Commune:</label>
-                <input type="text" name="city" class="form-control" required>
+                <label class="text-blue">Commune:</label>
+                <input type="text" name="city" class="form-control border-orange" required>
             </div>
         </div>
         <div class="form-check">
-            <input class="form-check-input" name="mapask" type="checkbox" value="" id="defaultCheck1">
-            <label class="form-check-label" for="defaultCheck1">
+            <input class="form-check-input border-orange" name="mapask" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label text-blue" for="defaultCheck1">
               Autoriser la localisation sur la carte ?
             </label>
         </div><br>  
         <div class="form-group">
-            <label for="exampleFormControlSelect1">Choisir son atelier préféré:</label>
-            <select name="atelier" class="form-control" id="exampleFormControlSelect1" required>
+            <label class="text-blue" for="exampleFormControlSelect1">Choisir son atelier préféré:</label>
+            <select name="atelier" class="form-control border-orange" id="exampleFormControlSelect1" required>
               <option value="1">Atelier Cocagne Alimen'terre</option>
               <option value="2">Brico Ordi</option>
               <option value="3">Brico Vélo</option>
@@ -49,8 +49,8 @@
             </select>
         </div>
         <div class="form-group">
-            <label>Interets Divers:</label>
-            <input type="text" name="interest" class="form-control">
+            <label class="text-blue">Interets Divers:</label>
+            <input type="text" name="interest" class="form-control border-orange">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-outline-success" value="Submit">Ok</button>
