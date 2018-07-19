@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const moment = require('moment');
 const mailkey = require('./mailconnect');
 const sgMail = require('@sendgrid/mail');
-const admin = require ('./admin');
+const admin = require('./admin');
 sgMail.setApiKey(mailkey);
 let app = express();
 require('./route')(app);
@@ -182,8 +182,8 @@ app.post('/signin', function (req, res) {
             console.log("we can create user");
             bcrypt.hash(req.body.password, 10, function (err, hash) {
                 // Store hash in your password DB.
-                
-                var sql = `INSERT INTO User(mail, password, pseudo, codePostal, commune, InteretsDivers, avatar, tel, Ateliers_idAtelier) VALUES (` + con.escape(req.body.usermail)+","+ con.escape(hash)+","+ con.escape(req.body.username)+","+ con.escape(req.body.zip)+","+ con.escape(req.body.city)+","+ con.escape(req.body.interest)+","+ con.escape("1")+","+ con.escape(req.body.usertel)+","+ con.escape(req.body.atelier)+")";
+
+                var sql = `INSERT INTO User(mail, password, pseudo, codePostal, commune, InteretsDivers, avatar, tel, Ateliers_idAtelier) VALUES (` + con.escape(req.body.usermail) + "," + con.escape(hash) + "," + con.escape(req.body.username) + "," + con.escape(req.body.zip) + "," + con.escape(req.body.city) + "," + con.escape(req.body.interest) + "," + con.escape("1") + "," + con.escape(req.body.usertel) + "," + con.escape(req.body.atelier) + ")";
                 console.log(sql)
                 con.query(sql, function (err, result) {
                     if (err) throw err;
@@ -197,7 +197,7 @@ app.post('/signin', function (req, res) {
                         res.redirect('/');
                     });
                 });
-            });  
+            });
         }
     });
 });
@@ -337,7 +337,7 @@ app.get('/index', loggedIn, function (req, res) {
                             });
                             //console.log('EVENTID: ', event.id)
                             let reserOk = false;
-                            if(moment(test).isAfter(moment())){
+                            if (moment(test).isAfter(moment())) {
                                 reserOk = true;
                             }
                             ateliers.push({
@@ -352,31 +352,31 @@ app.get('/index', loggedIn, function (req, res) {
                         }
                     }
                     let sqlAvis = `SELECT * FROM Avis;`;
-                        con.query(sqlAvis, function (err, result) {
+                    con.query(sqlAvis, function (err, result) {
+                        if (err) throw err;
+                        //console.log("AVIS: ", result)
+                        let sqlMerci = `SELECT * FROM Merci;`;
+                        con.query(sqlMerci, function (err, resultMerci) {
                             if (err) throw err;
-                            //console.log("AVIS: ", result)
-                            let sqlMerci = `SELECT * FROM Merci;`;
-                            con.query(sqlMerci, function (err, resultMerci) {
+                            let sqlAvatar = `SELECT idUser, avatar FROM User;`;
+                            con.query(sqlAvatar, function (err, resAvatar) {
                                 if (err) throw err;
-                                let sqlAvatar = `SELECT idUser, avatar FROM User;`;
-                                con.query(sqlAvatar, function (err, resAvatar){
-                                    if (err) throw err;
-                                    console.log("AVATARS: ",resAvatar)
-                                    res.render('index', {
-                                        atelier: ateliers,
-                                        user: req.user.pseudo,
-                                        logged: true,
-                                        avis: result,
-                                        ava: resAvatar,
-                                        merci: resultMerci
-                                    })
+                                console.log("AVATARS: ", resAvatar)
+                                res.render('index', {
+                                    atelier: ateliers,
+                                    user: req.user.pseudo,
+                                    logged: true,
+                                    avis: result,
+                                    ava: resAvatar,
+                                    merci: resultMerci
                                 })
-                                //console.log("MERCI: ",resultMerci)
-                                
-                            });
-                            
+                            })
+                            //console.log("MERCI: ",resultMerci)
+
                         });
-                    
+
+                    });
+
                 }
             });
         }
@@ -390,7 +390,7 @@ app.get('/index', loggedIn, function (req, res) {
 app.post('/addAvis', function (req, res) {
     //console.log(req.body)
     let datenow = moment().format('dddd DD MMMM YYYY HH:mm');
-    let sql = `INSERT INTO Avis(msg, date, username, User_idUser, Agenda_idAgenda) VALUES (`+ con.escape(req.body.Textarea)+`, '${datenow}','${req.user.pseudo}', '${req.user.idUser}', '${req.body.idAtelier}')`;
+    let sql = `INSERT INTO Avis(msg, date, username, User_idUser, Agenda_idAgenda) VALUES (` + con.escape(req.body.Textarea) + `, '${datenow}','${req.user.pseudo}', '${req.user.idUser}', '${req.body.idAtelier}')`;
     //console.log(sql)
     sendnotif(`Nouvel avis de ${req.user.pseudo} `, `${req.user.pseudo} le ${datenow} <br> ${req.body.Textarea}`)
     con.query(sql, function (err, result) {
@@ -402,9 +402,10 @@ app.post('/addAvis', function (req, res) {
 });
 //////////////////////////////////////////////
 //////////////GESTION DES MERCI
-app.post('/merci', function (req, res){
-    //console.log(req.body.ID, req.user.idUser)
-    if(req.body.ID == req.user.idUser){
+app.post('/merci', function (req, res) {
+    console.log("ID: ",req.body.ID)
+    if (req.body.ID == req.user.idUser) {
+        console.log("ICIIIIII")
         res.redirect('index');
     } else {
         //console.log("augmenter les merci!!!");
@@ -419,25 +420,25 @@ app.post('/merci', function (req, res){
 });
 
 /////////////GESTION DE LA CARTE ////////////
-app.get('/map', loggedIn, function(req,res){
+app.get('/map', loggedIn, function (req, res) {
     let sqlMap = `SELECT * FROM Carte `;
     con.query(sqlMap, function (err, result) {
         if (err) throw err;
         let arr = JSON.stringify(result);
         //arr.push(result)
-        console.log (arr)
+        console.log(arr)
         //console.log(JSON.stringify(result));
-        
+
         //let arr = JSON.stringify(result);
         res.render('map', {
             logged: true,
             usersLocation: arr
         });
     });
-    
+
 });
 
-app.post('/addUserOnMap', function(req, res){
+app.post('/addUserOnMap', function (req, res) {
     //console.log(req.body.location)
     let sqlLocation = `INSERT INTO Carte (idUser, username, lat, lng) VALUES ('${req.user.idUser}', '${req.user.pseudo}', '${req.body.lat}','${req.body.lng}') 
     ON DUPLICATE KEY UPDATE lat = '${req.body.lat}', lng = '${req.body.lng}'`;
@@ -450,7 +451,7 @@ app.post('/addUserOnMap', function(req, res){
 });
 
 //////////////RESERVER/////////////
-app.post('/reserver', function(req, res){
+app.post('/reserver', function (req, res) {
     //console.log(JSON.stringify(req.body))
     let corp = JSON.stringify(req.body)
     //console.log("RESERVATION: ", `Demande de reservation: ${corp} par ${req.user.pseudo}`)
@@ -459,9 +460,9 @@ app.post('/reserver', function(req, res){
 });
 
 /////////////CHOIX DES AVATARS ////////////
-app.post('/avatar', function(req, res){
+app.post('/avatar', function (req, res) {
     console.log(req.body)
-    let sqlAv = `UPDATE User SET avatar =`+ con.escape(req.body.choixAvatar)+` WHERE idUser = ` + con.escape(req.user.idUser);
+    let sqlAv = `UPDATE User SET avatar =` + con.escape(req.body.choixAvatar) + ` WHERE idUser = ` + con.escape(req.user.idUser);
     con.query(sqlAv, function (err, result) {
         if (err) throw err;
         //console.log(result);
@@ -472,7 +473,7 @@ app.post('/avatar', function(req, res){
 });
 
 /////////////ENVOI DES MAILS //////////////
-function sendnotif(subj, texte){
+function sendnotif(subj, texte) {
     console.log("sending mail");
     let msg = {
         to: admin,
@@ -480,8 +481,8 @@ function sendnotif(subj, texte){
         subject: subj,
         text: `Ceci est un message automatique: ${texte}`,
         html: `<strong>Ceci est un message automatique, ne pas répondre</strong><br><p>${texte}</p>`,
-      };
-      sgMail.send(msg);
+    };
+    sgMail.send(msg);
 }
 
 
@@ -643,6 +644,7 @@ function loggedIn(req, res, next) {
     }
 }
 
+///////////////// GESTION PROFIL PERSO //////////////////
 app.get('/profil', loggedIn, function (req, res) {
     //console.log("PROFIL: ", req.user)
     let sqlavis = `SELECT * FROM User WHERE pseudo = '${req.user.pseudo}'`;
@@ -660,29 +662,76 @@ app.get('/profil', loggedIn, function (req, res) {
             })
         });
         //console.log('avis recupéré');
-        
+
     });
 });
 
+////////////////// GESTION PROFIL DES USAGERS //////////////////
+app.get('/profilPublic', function (req, res) {
+
+    let sqlprofil = `SELECT * FROM User `;
+    con.query(sqlprofil, function (err, resultProfil) {
+        //console.log("resultPROFIL: ",resultProfil);
+        if (err) throw err;
+        let sqlMerci = `SELECT merci FROM Merci WHERE User_idUser = '${req.user.idUser}'`;
+        con.query(sqlMerci, function (err, resultMerci) {
+            if (err) throw err;
+            //console.log("resultMERCI: ",resultMerci);
+            res.render('profilPublic', {
+                utilisateurs: resultProfil,
+                logged: true,
+                merci: resultMerci[0],
+                user: "none"
+            })
+        });
+        //console.log('avis recupéré');
+
+    });
+});
+
+app.post('/listeProfil', function (req, res) {
+    console.log(req.body);
+    let sqlprofilconsult = `SELECT * FROM User WHERE idUser =` + con.escape(req.body.profil);
+    console.log(req.body.profil);
+    con.query(sqlprofilconsult, function (err, resultProfilConsult) {
+        if (err) throw err;
+        console.log(resultProfilConsult)
+        //console.log(utilisateurs)
+        
+        //console.log(resultProfil)
+        let sqlMerci = `SELECT merci FROM Merci WHERE User_idUser = ` + con.escape(req.body.profil);
+        con.query(sqlMerci, function (err, resultMerci) {
+            if (err) throw err;
+            let sqlprofil = `SELECT * FROM User`
+            con.query(sqlprofil, function (err, resultProfil) {
+                if (err) throw err;
+                console.log("resultProfilConsult: ",resultProfilConsult[0])
+                res.render('profilPublic', {
+                utilisateurs: resultProfil,
+                logged: true,
+                merci: resultMerci[0],
+                user: resultProfilConsult[0]
+                })
+            });
+        });
+    });
+});
+
+//////////////// AFFICHAGE DES MENTIONS LEGALES //////////////////
 app.get('/mention', function (req, res) {
-    res.render('mention',{
+    res.render('mention', {
         logged: true
     })
 });
 
-app.get('/profilPublic', function (req, res) {
-    
-    res.render('profilPublic', {
-        logged: true
-    });
-});
+
 
 
 // PAGE POUR LES TEST SQL
-app.get('/test', function (req, res){
+app.get('/test', function (req, res) {
 
     // debut de la partie SQL
-    let sqlrequete = `SELECT * FROM User `;// <-- la requete au format mysql, la on selectionne tout dans la table User
+    let sqlrequete = `SELECT * FROM User `; // <-- la requete au format mysql, la on selectionne tout dans la table User
     con.query(sqlrequete, function (err, result) { // <-- on lance la requete
         if (err) throw err; // <-- si ya une erreur ca plante le server et indique l'erreur (en gros hein sql pas tres bavard)
         console.log(result); // <-- on affiche le resultat de la requete dans le terminal
@@ -692,5 +741,5 @@ app.get('/test', function (req, res){
         res.render('test', {
             logged: true
         });
-    }); 
+    });
 });
