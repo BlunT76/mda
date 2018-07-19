@@ -8,8 +8,22 @@
 /*Variables globales*/
 
 /* general */
+.bg-logo {
+    background: url('../img/background.png') no-repeat center center fixed;
+    -webkit-background-size: 48% auto;
+    -moz-background-size: 48% auto;
+    -o-background-size: 48% auto;
+    background-size: 50% auto;
+    color: #000;
+}
+body {
+background-color: transparent;  
+}
+
 p {
     font-family: 'Ubuntu', sans-serif !important;
+    margin-left: 1em;
+    margin-right: 1em;
     
 }
 
@@ -64,7 +78,7 @@ img {
 }
 
 .text-blue {
-    color: #1B9996;
+    color: #1B9996 !important;
 }
 
 .text-yellow {
@@ -147,4 +161,21 @@ a:link  {
 
 .list-group-flush .list-group-item {
     border: none !important;
+    background-color: transparent !important;
+}
+
+.social {
+    background-color: transparent !important;
+}
+
+.nav-link {
+    color: #F1AD32 !important;
+}
+
+.nav-link:hover {
+    color: #1B9996 !important;
+}
+
+.bg-orange-clair {
+    background-color: #F7D095;
 }
