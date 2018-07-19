@@ -682,7 +682,7 @@ app.get('/profilPublic', function (req, res) {
 app.get('/test', function (req, res){
 
     // debut de la partie SQL
-    let sqlrequete = `SELECT * FROM User `;// <-- la requete au format mysql, la on selectionne tout dans la table User
+    let sqlrequete = `SELECT pseudo FROM User`;// <-- la requete au format mysql, la on selectionne tout dans la table User
     con.query(sqlrequete, function (err, result) { // <-- on lance la requete
         if (err) throw err; // <-- si ya une erreur ca plante le server et indique l'erreur (en gros hein sql pas tres bavard)
         console.log(result); // <-- on affiche le resultat de la requete dans le terminal
