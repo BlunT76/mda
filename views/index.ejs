@@ -27,7 +27,7 @@
                                     <p class="text-green mb-1"><%= atelier.location %></p>
                                     <% if (atelier.reserverOk){ %>
                                     <form id="reservation" action="/reserver" method="post" class="group-form mt-1">                  
-                                        <button type="submit" class="btn btn-sm btn-outline-success form-group" name="<%= atelier.sommaire %> : <%= atelier.dateStart %>">Reserver
+                                        <button type="submit" class="btn btn-sm btn-outline-info form-group" name="<%= atelier.sommaire %> : <%= atelier.dateStart %>">Reserver
                                         </button>
                                     </form>
                                 <% } %>
@@ -67,8 +67,8 @@
                                                         <% if (avis.User_idUser == merci.User_idUser) { %>
                                                             <form action="/merci" method="post" class="group-form m-2">
                                                             
-                                                            <button type="submit" class="btn btn-sm btn-outline-success float-right form-group" name="ID" value="<%= avis.User_idUser %>"><i class="fas fa-hands-helping"></i>  Merci
-                                                                <span class="badge badge-success"><%= merci.merci %></span>
+                                                            <button type="submit" class="btn btn-sm btn-outline-info float-right form-group" name="ID" value="<%= avis.User_idUser %>"><i class="fas fa-hands-helping"></i>  Merci
+                                                                <span class="badge badge-info"><%= merci.merci %></span>
                                                             </button>
                                                         </form>
                                                         <% } %>
@@ -92,7 +92,7 @@
                                         
                                         <div class="row">
                                         <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs">
-                                            <button name="Submit" type="submit" class="btn btn-outline-success" value="Submit">Envoyer </button>
+                                            <button name="Submit" type="submit" class="btn btn-outline-info" value="Submit">Envoyer </button>
                                         </div>
                                         </form>
                                         <!-- <input class="btn btn-outline-success bg-green float-right mr-2" type="submit" value="Submit"> -->
