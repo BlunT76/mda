@@ -1,5 +1,5 @@
 <%-include ../partials/head.ejs%>
-<%- include('../partials/nav', {logged: false}); %>
+<%- include('../partials/nav', {logged: logged}); %>
     <div class="container mt-4 pb-5">
             
                 <img class="img-fluid w-25 mt-1 mx-auto d-block" src="./img/logoUEHG.png">
@@ -132,66 +132,9 @@
             <li class="list-group-item text-secondary border-0 mt-0 pt-0">+ d'une centaine d'avatars a gagner !!</li>
           </ul>
         <br>
-        <hr class="bg-orange">
+        <hr class="bg-orange d-xl-none d-lg-none d-sm-block d-md-block">
    
-    <div class="container social bg-transparent">
-
-            <!-- Grid row-->
-            <div  class="row f-flex py-4 align-items-center social">
-        
-                <!-- Grid column -->
-                <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0 social">
-                    <h5 class="mb-0 ml-4 text-uppercase font-weight-bold text-blue">Suivez nous sur les réseaux sociaux</h5>
-                </div>
-                <!-- Grid column -->
-        
-                <!-- Grid column -->
-                <div class="col-md-6 col-lg-7 text-center text-md-right social">
-        
-                    <!-- Facebook -->
-                    <a class="bg-transparent m-1 text-deco-none" href="https://www.facebook.com/maisondelavenircomminges/" target="_blank">
-                        <span class="fa-stack fa-2x">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-facebook-f fa-stack-1x text-light shadow-circle"></i>
-                        </span>
-                    </a>
-                    <!--<a class="fb-ic"><i class="fa fa-facebook white-text mr-4"> </i></a>-->
-        
-                    <!-- Twitter -->
-                    <a class="bg-transparent m-1 text-deco-none" href="https://twitter.com/MDA_Comminges" target="_blank">
-                        <span class="fa-stack fa-2x">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-twitter fa-stack-1x text-light shadow-circle"></i>
-                        </span>
-                    </a>
-                    <!--<a class="tw-ic"><i class="fa fa-twitter white-text mr-4"> </i></a>-->
-        
-                    <!--Linkedin -->
-                    <a class="bg-transparent m-1 text-deco-none" href="https://www.linkedin.com/company/maison-de-l-avenir-comminges-pyr%C3%A9n%C3%A9es/"
-                        target="_blank">
-                        <span class="fa-stack fa-2x">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-linkedin-in fa-stack-1x text-light shadow-circle"></i>
-                        </span>
-                    </a>
-                    <!--<a class="li-ic"><i class="fa fa-linkedin white-text mr-4"> </i></a>-->
-        
-                    <!--Instagram-->
-                    <a class="bg-transparent m-1 text-deco-none" href="https://www.instagram.com/mda_comminges/" target="_blank">
-                        <span class="fa-stack fa-2x">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-instagram fa-stack-1x text-light shadow-circle"></i>
-                        </span>
-                    </a>
-                    <!--<a class="ins-ic"><i class="fa fa-instagram white-text"> </i></a>-->
-        
-                </div>
-                <!-- Grid column -->
-        
-            </div>
-            <!-- Grid row-->
-        
-        </div>
+        <%-include ../partials/social.ejs%>
     </div>
         <!-- </div> -->
         <!-- </div> -->

@@ -80,7 +80,6 @@ moment.locale('fr');
 
 //Lance le server
 let server = app.listen(process.env.PORT || 3002);
-//let server = app.listen(3002);
 
 
 ///////PASSPORT an LOGIN/SIGNIN //////////////
@@ -96,8 +95,6 @@ passport.use('local', new LocalStrategy({
         // we are checking to see if the user trying to login already exists
         let sql = `SELECT * FROM User WHERE pseudo = ` + con.escape(username);
         con.query(sql, function (err, rows) {
-            //con.query(`SELECT * FROM client WHERE login = '${username}'`, function (err, rows) {
-            ////console.log("ROWS: ", rows)
             if (err)
                 return done(err);
             if (!rows.length) {
@@ -143,13 +140,74 @@ app.post('/login',
         failureRedirect: '/login'
     }),
     function (req, res) {
-        //console.log("USER LOGGED: ", req.user);
-        res.redirect('index')
+        var {
+            google
+        } = require('googleapis');
+        var privatekey = require("./privatekey.json");
+    
+        // configure a JWT auth client
+        var jwtClient = new google.auth.JWT(
+            privatekey.client_email,
+            null,
+            privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
+        //authenticate request
+        jwtClient.authorize(function (err, tokens) {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                console.log("Successfully connected!");
+                //Google Calendar API
+                let calendar = google.calendar('v3');
+                calendar.events.list({
+                    auth: jwtClient,
+                    calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
+                    singleEvents: true,
+                    orderBy: 'startTime'
+                }, function (err, response) {
+                    if (err) {
+                        console.log('The API returned an error: ' + err);
+                        return;
+                    }
+                    var events = response.data.items;
+                    if (events.length == 0) {
+                        console.log('No events found.');
+                    } else {
+                        console.log('Event from Google Calendar:');
+                        let oneMonthAgo = moment();
+                        let oneMonthAfter = moment().add(2, 'months');
+                        let ateliers = [];
+                        for (let event of response.data.items) {
+                            let test = moment(event.start.dateTime)
+                            if (moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)) {
+                                ateliers.push({
+                                    sommaire: event.summary,
+                                    location: event.location,
+                                    dateStart: moment(event.start.dateTime).format('dddd DD MMMM YYYY HH:mm'),
+                                    dateEnd: moment(event.end.dateTime).format('-HH:mm')
+                                })
+                            }
+                        }
+                        if (req.user){
+                            res.render('indexNotLogged', {
+                                atelier: ateliers,
+                                logged: true
+                            })
+                        } else {
+                            res.render('indexNotLogged', {
+                                atelier: ateliers,
+                                logged: false
+                            })
+                        }
+                        
+                    }
+                });
+            }
+        })
     }
 );
 
 app.get('/login', function (req, res) {
-    //console.log("login page loaded")
     res.render('login', {
         logged: false
     });
@@ -157,7 +215,6 @@ app.get('/login', function (req, res) {
 
 ///////////GESTION SIGNIN///////////
 app.get('/signin', function (req, res) {
-    //console.log("signin page loaded")
     let error = "";
     res.render('signin', {
         errorMsg: error,
@@ -166,7 +223,6 @@ app.get('/signin', function (req, res) {
 });
 
 app.post('/signin', function (req, res) {
-    //console.log(req.body)
     //Now we check if username already exist, if true we send an error "login already exists"
     con.query(`SELECT * FROM User WHERE mail = '${req.body.usermail}'`, function (err, rows) {
         if (err)
@@ -182,15 +238,12 @@ app.post('/signin', function (req, res) {
             console.log("we can create user");
             bcrypt.hash(req.body.password, 10, function (err, hash) {
                 // Store hash in your password DB.
-
                 var sql = `INSERT INTO User(mail, password, pseudo, codePostal, commune, InteretsDivers, avatar, tel, Ateliers_idAtelier) VALUES (` + con.escape(req.body.usermail) + "," + con.escape(hash) + "," + con.escape(req.body.username) + "," + con.escape(req.body.zip) + "," + con.escape(req.body.city) + "," + con.escape(req.body.interest) + "," + con.escape("1") + "," + con.escape(req.body.usertel) + "," + con.escape(req.body.atelier) + ")";
                 console.log(sql)
                 con.query(sql, function (err, result) {
                     if (err) throw err;
                     console.log('user added successfully');
-                    //console.log(`Inscription d'un nouvel utilisateur`, `${req.body.username}<br>${req.body.usermail}<br>${req.body.usertel}<br>${req.body.zip}<br>${req.body.city}<br>${req.body.atelier}<br>${req.body.interest}`)
                     sendnotif(`Inscription d'un nouvel utilisateur`, `${req.body.username}<br>${req.body.usermail}<br>${req.body.usertel}<br>${req.body.zip}<br>${req.body.city}`)
-                    //console.log("RESULT SIGNIN: ", result);
                     let sql = `INSERT INTO Merci(merci,User_idUser) VALUES (0, ${result.insertId})`;
                     con.query(sql, function (err, result) {
                         if (err) throw err;
@@ -210,23 +263,19 @@ app.get('/logout', function (req, res) {
 /////////////PASSPORT END////////////////////
 
 //////////// GESTION DES PAGES INDEX ///////////////
-//Lorsqu'on est deconnecté on affiche la page indexNotLogged.ejs
 app.get('/', function (req, res) {
-    //console.log(req.user.login)
     var {
         google
     } = require('googleapis');
     var privatekey = require("./privatekey.json");
 
     // configure a JWT auth client
-    //var authClient = new googleAuth();
     var jwtClient = new google.auth.JWT(
         privatekey.client_email,
         null,
         privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
     //authenticate request
     jwtClient.authorize(function (err, tokens) {
-        //console.log(tokens)
         if (err) {
             console.log(err);
             return;
@@ -235,13 +284,11 @@ app.get('/', function (req, res) {
             //Google Calendar API
             let calendar = google.calendar('v3');
             calendar.events.list({
-                //calendar.calendarList.list({
                 auth: jwtClient,
                 calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
                 singleEvents: true,
                 orderBy: 'startTime'
             }, function (err, response) {
-                //console.log(response.data.items);
                 if (err) {
                     console.log('The API returned an error: ' + err);
                     return;
@@ -255,10 +302,7 @@ app.get('/', function (req, res) {
                     let oneMonthAfter = moment().add(2, 'months');
                     let ateliers = [];
                     for (let event of response.data.items) {
-                        //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-
                         let test = moment(event.start.dateTime)
-                        //console.log("NOW: ",now," TEST: ",test)
                         if (moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)) {
                             ateliers.push({
                                 sommaire: event.summary,
@@ -266,17 +310,19 @@ app.get('/', function (req, res) {
                                 dateStart: moment(event.start.dateTime).format('dddd DD MMMM YYYY HH:mm'),
                                 dateEnd: moment(event.end.dateTime).format('-HH:mm')
                             })
-                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-
                         }
-
-                        //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
                     }
-                    //console.log(ateliers);
-                    res.render('indexNotLogged', {
-                        atelier: ateliers,
-                        logged: false
-                    })
+                    if (req.user){
+                        res.render('indexNotLogged', {
+                            atelier: ateliers,
+                            logged: true
+                        })
+                    } else {
+                        res.render('indexNotLogged', {
+                            atelier: ateliers,
+                            logged: false
+                        })
+                    }  
                 }
             });
         }
@@ -291,14 +337,12 @@ app.get('/index', loggedIn, function (req, res) {
     var privatekey = require("./privatekey.json");
 
     // configure a JWT auth client
-    //var authClient = new googleAuth();
     var jwtClient = new google.auth.JWT(
         privatekey.client_email,
         null,
         privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
     //authenticate request
     jwtClient.authorize(function (err, tokens) {
-        //console.log(tokens)
         if (err) {
             console.log(err);
             return;
@@ -312,7 +356,6 @@ app.get('/index', loggedIn, function (req, res) {
                 singleEvents: true,
                 orderBy: 'startTime'
             }, function (err, response) {
-                //console.log(response.data.items);
                 if (err) {
                     console.log('The API returned an error: ' + err);
                     return;
@@ -329,13 +372,11 @@ app.get('/index', loggedIn, function (req, res) {
                     for (let event of response.data.items) {
                         let test = moment(event.start.dateTime);
                         if (moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)) {
-                            //console.log(event);
                             var agd = `INSERT INTO Agenda(idAgenda, dateStart, dateEnd, agendaNbr) VALUES ('${event.id}', '${event.start.dateTime}', '${event.end.dateTime}', 1) ON DUPLICATE KEY UPDATE agendaNbr = 1`;
                             con.query(agd, function (err, result) {
                                 if (err) throw err;
                                 console.log('agenda updated successfully')
                             });
-                            //console.log('EVENTID: ', event.id)
                             let reserOk = false;
                             if (moment(test).isAfter(moment())) {
                                 reserOk = true;
@@ -354,7 +395,6 @@ app.get('/index', loggedIn, function (req, res) {
                     let sqlAvis = `SELECT * FROM Avis;`;
                     con.query(sqlAvis, function (err, result) {
                         if (err) throw err;
-                        //console.log("AVIS: ", result)
                         let sqlMerci = `SELECT * FROM Merci;`;
                         con.query(sqlMerci, function (err, resultMerci) {
                             if (err) throw err;
@@ -371,12 +411,8 @@ app.get('/index', loggedIn, function (req, res) {
                                     merci: resultMerci
                                 })
                             })
-                            //console.log("MERCI: ",resultMerci)
-
                         });
-
                     });
-
                 }
             });
         }
@@ -388,16 +424,13 @@ app.get('/index', loggedIn, function (req, res) {
 
 //Envoi des avis vers le serveur et les ajoute dans la table avis
 app.post('/addAvis', function (req, res) {
-    //console.log(req.body)
     let datenow = moment().format('dddd DD MMMM YYYY HH:mm');
     let sql = `INSERT INTO Avis(msg, date, username, User_idUser, Agenda_idAgenda) VALUES (` + con.escape(req.body.Textarea) + `, '${datenow}','${req.user.pseudo}', '${req.user.idUser}', '${req.body.idAtelier}')`;
-    //console.log(sql)
     sendnotif(`Nouvel avis de ${req.user.pseudo} `, `${req.user.pseudo} le ${datenow} <br> ${req.body.Textarea}`)
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log('avis added successfully')
     });
-    //req.logout();
     res.redirect('/index');
 });
 //////////////////////////////////////////////
@@ -408,9 +441,7 @@ app.post('/merci', function (req, res) {
         console.log("ICIIIIII")
         res.redirect('index');
     } else {
-        //console.log("augmenter les merci!!!");
         let sql = `UPDATE Merci SET merci = merci + 1 WHERE User_idUser = ${req.body.ID}`;
-        //console.log(sql)
         con.query(sql, function (err, result) {
             if (err) throw err;
             console.log('merci added successfully');
@@ -425,36 +456,25 @@ app.get('/map', loggedIn, function (req, res) {
     con.query(sqlMap, function (err, result) {
         if (err) throw err;
         let arr = JSON.stringify(result);
-        //arr.push(result)
-        console.log(arr)
-        //console.log(JSON.stringify(result));
-
-        //let arr = JSON.stringify(result);
         res.render('map', {
             logged: true,
             usersLocation: arr
         });
     });
-
 });
 
 app.post('/addUserOnMap', function (req, res) {
-    //console.log(req.body.location)
     let sqlLocation = `INSERT INTO Carte (idUser, username, lat, lng) VALUES ('${req.user.idUser}', '${req.user.pseudo}', '${req.body.lat}','${req.body.lng}') 
     ON DUPLICATE KEY UPDATE lat = '${req.body.lat}', lng = '${req.body.lng}'`;
-    //console.log(sqlLocation)
     con.query(sqlLocation, function (err, result) {
         if (err) throw err;
-        //console.log(result);
         res.redirect('map')
     });
 });
 
 //////////////RESERVER/////////////
 app.post('/reserver', function (req, res) {
-    //console.log(JSON.stringify(req.body))
     let corp = JSON.stringify(req.body)
-    //console.log("RESERVATION: ", `Demande de reservation: ${corp} par ${req.user.pseudo}`)
     sendnotif('Demande de reservation', `Demande de reservation: ${corp} par ${req.user.pseudo}`)
     res.redirect('index');
 });
@@ -465,11 +485,8 @@ app.post('/avatar', function (req, res) {
     let sqlAv = `UPDATE User SET avatar =` + con.escape(req.body.choixAvatar) + ` WHERE idUser = ` + con.escape(req.user.idUser);
     con.query(sqlAv, function (err, result) {
         if (err) throw err;
-        //console.log(result);
         res.redirect('profil')
     });
-    //console.log(sqlAv)
-    //UPDATE Merci SET merci = merci + 1 WHERE User_idUser = ${req.body.ID}
 });
 
 /////////////ENVOI DES MAILS //////////////
@@ -485,158 +502,10 @@ function sendnotif(subj, texte) {
     sgMail.send(msg);
 }
 
-
-/////////////CALENDAR//////////////////////
-// var {
-//     google
-// } = require('googleapis');
-// var privatekey = require("./privatekey.json");
-
-// // configure a JWT auth client
-// //var authClient = new googleAuth();
-// var jwtClient = new google.auth.JWT(
-//     privatekey.client_email,
-//     null,
-//     privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
-// //authenticate request
-// jwtClient.authorize(function (err, tokens) {
-//     //console.log(tokens)
-//     if (err) {
-//         console.log(err);
-//         return;
-//     } else {
-//         console.log("Successfully connected!");
-//         //Google Calendar API
-//         let calendar = google.calendar('v3');
-//         calendar.events.list({
-//         //calendar.calendarList.list({
-//             auth: jwtClient,
-//             calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
-//             singleEvents: true,
-//             orderBy:'startTime'
-//         }, function (err, response) {
-//             //console.log(response.data.items);
-//             if (err) {
-//                 console.log('The API returned an error: ' + err);
-//                 return;
-//             }
-//             var events = response.data.items;
-//             if (events.length == 0) {
-//                 console.log('No events found.');
-//             } else {
-//                 console.log('Event from Google Calendar:');
-//                 let oneMonthAgo = moment().subtract(1, 'months');
-//                 let oneMonthAfter = moment().add(1,'months');
-//                 let ateliers = [];
-//                 for (let event of response.data.items) {
-//                     //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-
-//                     let test = moment(event.start.dateTime)
-//                     //console.log("NOW: ",now," TEST: ",test)
-//                     if(moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)){
-//                         ateliers.push({
-//                             sommaire: event.summary,
-//                             location: event.location,
-//                             dateStart: event.start.dateTime,
-//                             dateEnd: event.end.dateTime}
-//                         )
-//                         //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-
-//                     }
-
-//                     //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
-//                 }
-//                 // console.log(ateliers);
-//                 // res.render('index',{
-//                 //     atelier: ateliers
-//                 // })
-//             }
-//         });
-//     }
-// });
-
-app.get('/', loggedIn, function (req, res) {
-    var {
-        google
-    } = require('googleapis');
-    var privatekey = require("./privatekey.json");
-
-    // configure a JWT auth client
-    //var authClient = new googleAuth();
-    var jwtClient = new google.auth.JWT(
-        privatekey.client_email,
-        null,
-        privatekey.private_key, ['https://www.googleapis.com/auth/calendar']);
-    //authenticate request
-    jwtClient.authorize(function (err, tokens) {
-        //console.log(tokens)
-        if (err) {
-            console.log(err);
-            return;
-        } else {
-            console.log("Successfully connected!");
-            //Google Calendar API
-            let calendar = google.calendar('v3');
-            calendar.events.list({
-                //calendar.calendarList.list({
-                auth: jwtClient,
-                calendarId: '0mom97cq9vlvktu583504p2560@group.calendar.google.com',
-                singleEvents: true,
-                orderBy: 'startTime'
-            }, function (err, response) {
-                //console.log(response.data.items);
-                if (err) {
-                    console.log('The API returned an error: ' + err);
-                    return;
-                }
-                var events = response.data.items;
-                let ateliers = [];
-                if (events.length == 0) {
-                    console.log('No events found.');
-                } else {
-                    console.log('Event from Google Calendar:');
-                    let oneMonthAgo = moment().subtract(1, 'months');
-                    let oneMonthAfter = moment().add(1, 'months');
-
-                    for (let event of response.data.items) {
-                        //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-
-                        let test = moment(event.start.dateTime)
-                        //console.log("NOW: ",now," TEST: ",test)
-                        if (moment(test).isAfter(oneMonthAgo) && moment(test).isBefore(oneMonthAfter)) {
-                            ateliers.push({
-                                sommaire: event.summary,
-                                location: event.location,
-                                dateStart: event.start.dateTime,
-                                dateEnd: event.end.dateTime
-                            })
-                            //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime)
-
-                        }
-
-                        //console.log('Event name: %s, Location: %s, Start date: %s, End date: %s', event.summary, event.location, event.start.dateTime, event.end.dateTime);
-                    }
-                    //console.log(ateliers);
-                    res.render('index', {
-                        atelier: ateliers[0].sommaire
-                    })
-                }
-            });
-        }
-    });
-    //console.log(req.user.login)
-    // res.render('index', {
-    //     user: req.user.login
-    // })
-});
-
-
-
 /////////// FUNCTION //////////////
 //check if user is logged in
 //redirige la page profil si user pas connecté
 function loggedIn(req, res, next) {
-    //console.log("LOGGED IN/ ", req.user)
     if (req.user) {
         next();
     } else {
@@ -646,37 +515,30 @@ function loggedIn(req, res, next) {
 
 ///////////////// GESTION PROFIL PERSO //////////////////
 app.get('/profil', loggedIn, function (req, res) {
-    //console.log("PROFIL: ", req.user)
     let sqlavis = `SELECT * FROM User WHERE pseudo = '${req.user.pseudo}'`;
     con.query(sqlavis, function (err, resultProfil) {
-        //console.log("resultPROFIL: ",resultProfil);
         if (err) throw err;
         let sqlMerci = `SELECT merci FROM Merci WHERE User_idUser = '${req.user.idUser}'`;
         con.query(sqlMerci, function (err, resultMerci) {
             if (err) throw err;
-            //console.log("resultMERCI: ",resultMerci);
             res.render('profil', {
                 utilisateurs: resultProfil[0],
                 logged: true,
                 merci: resultMerci[0]
             })
         });
-        //console.log('avis recupéré');
-
     });
 });
 
 ////////////////// GESTION PROFIL DES USAGERS //////////////////
-app.get('/profilPublic', function (req, res) {
+app.get('/profilPublic', loggedIn, function (req, res) {
 
     let sqlprofil = `SELECT * FROM User `;
     con.query(sqlprofil, function (err, resultProfil) {
-        //console.log("resultPROFIL: ",resultProfil);
         if (err) throw err;
         let sqlMerci = `SELECT merci FROM Merci WHERE User_idUser = '${req.user.idUser}'`;
         con.query(sqlMerci, function (err, resultMerci) {
             if (err) throw err;
-            //console.log("resultMERCI: ",resultMerci);
             res.render('profilPublic', {
                 utilisateurs: resultProfil,
                 logged: true,
@@ -684,8 +546,6 @@ app.get('/profilPublic', function (req, res) {
                 user: "none"
             })
         });
-        //console.log('avis recupéré');
-
     });
 });
 
@@ -695,10 +555,6 @@ app.post('/listeProfil', function (req, res) {
     console.log(req.body.profil);
     con.query(sqlprofilconsult, function (err, resultProfilConsult) {
         if (err) throw err;
-        console.log(resultProfilConsult)
-        //console.log(utilisateurs)
-        
-        //console.log(resultProfil)
         let sqlMerci = `SELECT merci FROM Merci WHERE User_idUser = ` + con.escape(req.body.profil);
         con.query(sqlMerci, function (err, resultMerci) {
             if (err) throw err;
@@ -723,7 +579,6 @@ app.get('/mention', function (req, res) {
         logged: true
     })
 });
-
 
 
 
