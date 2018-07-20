@@ -8,14 +8,7 @@
 /*Variables globales*/
 
 /* general */
-.bg-logo {
-    background: url('../img/background.png') no-repeat center center fixed;
-    -webkit-background-size: 48% auto;
-    -moz-background-size: 48% auto;
-    -o-background-size: 48% auto;
-    background-size: 50% auto;
-    color: #000;
-}
+
 body {
 background-color: transparent;  
 }
@@ -177,5 +170,22 @@ a:link  {
 }
 
 .bg-orange-clair {
-    background-color: #F7D095;
+    //background-color: #F7D095;
+    //background-color: #f6e6b4; // Old browsers
+    background-color: #f7d095; // Old browsers
+    @include filter-gradient(#f7d095, #f1ad32, vertical); // IE6-9
+    @include background-image(linear-gradient(top, #f7d095 0%,#f6e6b4 0%,#f6e6b4 0%,#f6e6b4 1%,#f6e6b4 1%,#f6e6b4 1%,#f1ad32 100%));
 }
+
+
+@media (min-width: 992px) { 
+    .bg-logo {
+        background: url('../img/background.png') no-repeat center center fixed;
+        -webkit-background-size: 48% auto;
+        -moz-background-size: 48% auto;
+        -o-background-size: 48% auto;
+        background-size: 50% auto;
+        color: #000;
+    }
+}
+
