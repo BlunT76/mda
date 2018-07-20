@@ -4,6 +4,9 @@
     <!-- variables pour la liste des avatars-->
     <% var avatars = [];
     var avaMax = Math.floor(merci.merci/5)+3;
+        if (avaMax > 118){
+            avaMax = 118;
+        }
         for (var i = 2; i < avaMax; i++){
             avatars.push(`img/avatar${i}.png`);
         };
@@ -21,11 +24,11 @@
                         <div id="carouselExampleControls"data-interval="false" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="mx-auto d-block w-60 " src="img/avatar<%= utilisateurs.avatar %>.png" alt="First slide">
+                                    <img class="mx-auto d-block img-fluid " src="img/avatar<%= utilisateurs.avatar %>.png" alt="First slide">
                                 </div>
                                     <% avatars.forEach(function(avatars, index){ %>
                                     <div class="carousel-item">
-                                        <img class="mx-auto d-block w-60" src="<%= avatars %>" alt="Second slide">
+                                        <img class="mx-auto d-block img-fluid" src="<%= avatars %>" alt="Second slide">
                                     </div>
                                     <% }) %> 
                                 </div>
@@ -41,26 +44,17 @@
                             <p class="text-center text-blue mt-3">Gagnez de nouveaux avatars en recevant des Merci</p>
                             <p class="text-center text-blue m-2">5 Merci = 1 nouvel avatar</p>
                             <!--Nombre Merci-->
+                            <div class="mx-auto text-center">
                             <button class="btn btn-sm btn-outline-info form-group" name="ID" value="<%= utilisateurs.idUser %>">Actuellement:
                                 <span class="badge badge-info ml-1"> <%= merci.merci %> </span><i class="fas fa-hands-helping ml-2"></i>
                             </button>
-                            <form action="/avatar" method="post" class="group-form m-1 float-right">
+                            <form action="/avatar" method="post" class="group-form d-inline ">
                                 <button type="submit" class="btn btn-sm btn-outline-info form-group" name="choixAvatar" id="choixAvatar" value="<%= utilisateurs.idUser %>">Choisir cet avatar
                                     
                                 </button>
                             </form>
                         </div>
-                            
-                
-
-                <!--Contactez-moi (commenté par phil, a mettre uniquement dans profil public-->
-
-                    <!-- <form action="/contactezMoi" method="post" class="group-form m-2">
-                        <button type="submit" class="btn btn-sm btn-outline-info float-left form-group"> Contactez-moi !
-
-                        </button>
-                    
-                    </form> -->
+                        </div>
                 </div>
                 <!--End Carousel Wrapper-->
 
@@ -96,7 +90,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="text-blue">Atelier préféré:</label>
-                                <input type="atelier" name="atelierPref" class="form-control border-orange" value="<%= utilisateurs.Ateliers_idAtelier %>" required>
+                                <input type="atelier" name="atelierPref" class="form-control border-orange" value="<%= atelierName %>" required>
                             </div>
                             <div class="form-group">
                                 <label class="text-blue">Interets Divers:</label>

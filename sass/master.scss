@@ -173,8 +173,8 @@ a:link  {
     //background-color: #F7D095;
     //background-color: #f6e6b4; // Old browsers
     background-color: #f7d095; // Old browsers
-    @include filter-gradient(#f7d095, #f1ad32, vertical); // IE6-9
-    @include background-image(linear-gradient(top, #f7d095 0%,#f6e6b4 0%,#f6e6b4 0%,#f6e6b4 1%,#f6e6b4 1%,#f6e6b4 1%,#f1ad32 100%));
+@include filter-gradient(#f7d095, #f1ad32, vertical); // IE6-9
+@include background-image(linear-gradient(top, #f7d095 28%,#f1ad32 100%));
 }
 
 
