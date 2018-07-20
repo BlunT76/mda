@@ -144,7 +144,7 @@ app.post('/login',
             google
         } = require('googleapis');
         var privatekey = require("./privatekey.json");
-    
+
         // configure a JWT auth client
         var jwtClient = new google.auth.JWT(
             privatekey.client_email,
@@ -188,7 +188,11 @@ app.post('/login',
                                 })
                             }
                         }
-                        if (req.user){
+                        let sqlLastCo = `INSERT INTO DateConnexion (User_idUser, dateActuelle) VALUES ('${req.user.idUser}', NOW()) ON DUPLICATE KEY UPDATE dateActuelle = NOW()`
+                        con.query(sqlLastCo, function (err, result) {
+                            if (err) throw err;
+                        });
+                        if (req.user) {
                             res.render('indexNotLogged', {
                                 atelier: ateliers,
                                 logged: true
@@ -199,7 +203,7 @@ app.post('/login',
                                 logged: false
                             })
                         }
-                        
+
                     }
                 });
             }
@@ -312,7 +316,7 @@ app.get('/', function (req, res) {
                             })
                         }
                     }
-                    if (req.user){
+                    if (req.user) {
                         res.render('indexNotLogged', {
                             atelier: ateliers,
                             logged: true
@@ -322,7 +326,7 @@ app.get('/', function (req, res) {
                             atelier: ateliers,
                             logged: false
                         })
-                    }  
+                    }
                 }
             });
         }
@@ -436,7 +440,7 @@ app.post('/addAvis', function (req, res) {
 //////////////////////////////////////////////
 //////////////GESTION DES MERCI
 app.post('/merci', function (req, res) {
-    console.log("ID: ",req.body.ID)
+    console.log("ID: ", req.body.ID)
     if (req.body.ID == req.user.idUser) {
         console.log("ICIIIIII")
         res.redirect('index');
@@ -475,7 +479,7 @@ app.post('/addUserOnMap', function (req, res) {
 //////////////RESERVER/////////////
 app.post('/reserver', function (req, res) {
     let corp = JSON.stringify(req.body)
-    sendnotif('Demande de reservation', `Demande de reservation: ${corp} par ${req.user.pseudo}`)
+    sendnotif('Demande de reservation', `Demande de reservation: ${corp} par ${req.user.pseudo}, mail: ${req.user.mail}`)
     res.redirect('index');
 });
 
@@ -521,11 +525,16 @@ app.get('/profil', loggedIn, function (req, res) {
         let sqlMerci = `SELECT merci FROM Merci WHERE User_idUser = '${req.user.idUser}'`;
         con.query(sqlMerci, function (err, resultMerci) {
             if (err) throw err;
-            res.render('profil', {
-                utilisateurs: resultProfil[0],
-                logged: true,
-                merci: resultMerci[0]
-            })
+            let sqlAtelier = `SELECT nomAtelier FROM Ateliers WHERE idAtelier = '${resultProfil[0].Ateliers_idAtelier}'`;
+            con.query(sqlAtelier, function (err, resultAtelier) {
+                if (err) throw err;
+                res.render('profil', {
+                    utilisateurs: resultProfil[0],
+                    logged: true,
+                    merci: resultMerci[0],
+                    atelierName: resultAtelier[0].nomAtelier
+                })
+            });
         });
     });
 });
@@ -543,8 +552,9 @@ app.get('/profilPublic', loggedIn, function (req, res) {
                 utilisateurs: resultProfil,
                 logged: true,
                 merci: resultMerci[0],
-                user: "none"
-            })
+                user: "none",
+                atelierName: ""
+            });
         });
     });
 });
@@ -561,13 +571,19 @@ app.post('/listeProfil', function (req, res) {
             let sqlprofil = `SELECT * FROM User`
             con.query(sqlprofil, function (err, resultProfil) {
                 if (err) throw err;
-                console.log("resultProfilConsult: ",resultProfilConsult[0])
-                res.render('profilPublic', {
-                utilisateurs: resultProfil,
-                logged: true,
-                merci: resultMerci[0],
-                user: resultProfilConsult[0]
-                })
+                let sqlAtelier = `SELECT nomAtelier FROM Ateliers WHERE idAtelier = '${resultProfilConsult[0].Ateliers_idAtelier}'`;
+                con.query(sqlAtelier, function (err, resultAtelier) {
+                    if (err) throw err;
+                    res.render('profilPublic', {
+                        utilisateurs: resultProfil,
+                        logged: true,
+                        merci: resultMerci[0],
+                        user: resultProfilConsult[0],
+                        atelierName: resultAtelier[0].nomAtelier
+                    });
+                });
+                console.log("resultProfilConsult: ", resultProfilConsult[0])
+                
             });
         });
     });
