@@ -16,7 +16,7 @@
                 <form action="/listeProfil" method="post" class="group-form" id="listProfil">
                         <div class="row">
                                 
-                          <div class="col-3 offset-3">
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-3 offset-lg-3">
                                 
                                 <select name="profil" class="form-control border-orange float-right" id="exampleFormControlSelect1">
                                 <option value="" selected disabled hidden>Choisir un usager</option>
@@ -25,22 +25,22 @@
                                 <% }) %>
                                 </select>
                           </div>
-                          <div class="col-3"> 
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-3 offest-lg-3"> 
                                 <button type="submit" class="btn btn-outline-info form-control" value="Submit2">Voir le Profil</button>
                           </div>
                         </div>
                 </form>
             <div class="row">
                 <!--Carousel Wrapper-->
-                <div class="col-md-6 sm-12">
+                <div class="col-12 col-sm-12 col-md-6 ">
                     <div class="container mt-5 mb-3 p-3 rounded-xl border border-green">
                         <h3 class="text-blue text-center mb-4">Avatar de l'usager</h3>
 
                         <!--Slides-->
-                        <div id="carouselExampleControls"data-interval="false" class="carousel slide" data-ride="carousel">
+                        <!-- <div id="carouselExampleControls"data-interval="false" class="carousel slide" data-ride="carousel"> -->
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="mx-auto d-block w-60 " src="/img/avatar<%= user.avatar %>.png" alt="First slide">
+                                    <img class="mx-auto d-block img-fluid " src="/img/avatar<%= user.avatar %>.png" alt="First slide">
                                 </div>
                                    
                                 </div>
@@ -53,7 +53,7 @@
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Next</span>
                                 </a> -->
-                            </div>
+                            <!-- </div> -->
                             
                             <!--Nombre Merci-->
                             <div class="mt-5">
@@ -82,7 +82,7 @@
                 <!--End Carousel Wrapper-->
 
                 <!-- Infos profil -->
-                <div class="col-md-6 sm-12">
+                <div class="col-12 col-sm-12 col-md-6">
 
 
                     <div class="container mt-5 mb-5 p-3 border border-green col rounded-xl">
@@ -136,7 +136,7 @@
 
 
 
-
+        <%-include ../partials/social.ejs%>
 
         <%-include ../partials/footer.ejs%>
         <script>
